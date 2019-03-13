@@ -1,0 +1,339 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head
+<head th:replace="fragments::head('My Portfolio - Home')">
+<title th:text="${title}"></title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<script src="https://code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre.min.css">
+<link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-exp.min.css">
+<link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-icons.min.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+<link rel="stylesheet" href="../static/css/hover-min.css" th:href="@{/css/hover-min.css}" />
+<link rel="stylesheet" href="../static/css/custom.css" th:href="@{/css/custom.css}" />
+</head>
+<body>
+<header class="navbar">
+  <section class="navbar-section">
+    <a href="..." class="navbar-brand mr-2">Spaced</a>
+  </section>
+  <section class="navbar-section">
+    <a href="..." class="btn btn-link">Admin</a>
+    <a href="..." class="btn btn-link">User</a>
+  </section>
+</header>
+	
+  <div class="docs-content">
+  <ul class="tab tab-block">
+  <li class="tab-item active">
+    <a href="#" class="badge" data-badge="19">
+      No deck
+    </a>
+  </li>
+  <li class="tab-item" id="deck-1" data-panel="panel-deck-1">
+    <a href="#" class="badge" data-badge="9">
+      Current
+    </a>
+  </li>
+  <li class="tab-item" id="deck-2" data-panel="panel-deck-2">
+    <a href="#" class="badge" data-badge="9">
+      Other day
+    </a>
+  </li>
+  <li class="tab-item" id="deck-3" data-panel="panel-deck-3">
+    <a href="#" class="badge" data-badge="9">
+      Weekly
+    </a>
+  </li>
+  <li class="tab-item" id="deck-4" data-panel="panel-deck-4">
+    <a href="#" class="badge" data-badge="9">
+      Monthly
+    </a>
+  </li>
+  <li class="tab-item" id="deck-5" data-panel="panel-deck-5">
+    <a href="#" class="badge" data-badge="9">
+      Retired
+    </a>
+  </li>
+</ul>
+  <div class="container">
+  
+  <div id="panel-deck-1" class="columns">
+    <div class="column col-1">
+		<div class="panel">
+		  <div class="panel-header">
+			<div class="panel-title">Task</div>
+		  </div>
+		  <div class="panel-nav">
+			<!-- navigation components: tabs, breadcrumbs or pagination -->
+		  </div>
+		  <div class="panel-body">
+			Answer
+		  </div>
+		  <div class="panel-footer">
+			<!-- buttons or inputs -->
+	    </div>
+	</div></div>
+	<div class="column col-1">
+		<div class="panel">
+		  <div class="panel-header">
+			<div class="panel-title">Task</div>
+		  </div>
+		  <div class="panel-nav">
+			<!-- navigation components: tabs, breadcrumbs or pagination -->
+		  </div>
+		  <div class="panel-body">
+			Answer
+		  </div>
+		  <div class="panel-footer">
+			<!-- buttons or inputs -->
+	    </div>
+	</div></div>
+  </div>
+  <div id="panel-deck-2" class="d-hide columns">
+    <div class="column col-1">
+		<div class="panel">
+		  <div class="panel-header">
+			<div class="panel-title">Task</div>
+		  </div>
+		  <div class="panel-nav">
+			<!-- navigation components: tabs, breadcrumbs or pagination -->
+		  </div>
+		  <div class="panel-body">
+			Answer
+		  </div>
+		  <div class="panel-footer">
+			<!-- buttons or inputs -->
+		  </div>
+		</div>
+	</div>
+	<div class="column col-1">
+		<div class="panel">
+		  <div class="panel-header">
+			<div class="panel-title">Task</div>
+		  </div>
+		  <div class="panel-nav">
+			<!-- navigation components: tabs, breadcrumbs or pagination -->
+		  </div>
+		  <div class="panel-body">
+			Answer
+		  </div>
+		  <div class="panel-footer">
+			<!-- buttons or inputs -->
+	    </div>
+	</div></div>
+	<div class="column col-1">
+		<div class="panel">
+		  <div class="panel-header">
+			<div class="panel-title">Task</div>
+		  </div>
+		  <div class="panel-nav">
+			<!-- navigation components: tabs, breadcrumbs or pagination -->
+		  </div>
+		  <div class="panel-body">
+			Answer
+		  </div>
+		  <div class="panel-footer">
+			<!-- buttons or inputs -->
+	    </div>
+	</div></div>
+  </div>
+  <div id="panel-deck-3" class="d-hide columns">
+    <div class="column col-1">
+		<div class="panel">
+		  <div class="panel-header">
+			<div class="panel-title">Task</div>
+		  </div>
+		  <div class="panel-nav">
+			<!-- navigation components: tabs, breadcrumbs or pagination -->
+		  </div>
+		  <div class="panel-body">
+			Answer
+		  </div>
+		  <div class="panel-footer">
+			<!-- buttons or inputs -->
+		  </div>
+		</div></div>
+  </div>
+  <div id="panel-deck-4" class="d-hide columns">
+    <div class="column col-1">
+		<div class="panel">
+		  <div class="panel-header">
+			<div class="panel-title">Task</div>
+		  </div>
+		  <div class="panel-nav">
+			<!-- navigation components: tabs, breadcrumbs or pagination -->
+		  </div>
+		  <div class="panel-body">
+			Answer
+		  </div>
+		  <div class="panel-footer">
+			<!-- buttons or inputs -->
+		  </div>
+		</div>
+	</div>
+	<div class="column col-1">
+		<div class="panel">
+			<div class="panel-header">
+				<div class="panel-title">Task</div>
+			</div>
+			<div class="panel-nav">
+				<!-- navigation components: tabs, breadcrumbs or pagination -->
+			</div>
+			<div class="panel-body">
+				Answer
+			</div>
+			<div class="panel-footer">
+			<!-- buttons or inputs -->
+			</div>
+		</div>
+	</div>
+	<div class="column col-1">
+		<div class="panel">
+		  <div class="panel-header">
+			<div class="panel-title">Task</div>
+		  </div>
+		  <div class="panel-nav">
+			<!-- navigation components: tabs, breadcrumbs or pagination -->
+		  </div>
+		  <div class="panel-body">
+			Answer
+		  </div>
+		  <div class="panel-footer">
+			<!-- buttons or inputs -->
+	    </div>
+	</div></div>
+	<div class="column col-1">
+		<div class="panel">
+		  <div class="panel-header">
+			<div class="panel-title">Task</div>
+		  </div>
+		  <div class="panel-nav">
+			<!-- navigation components: tabs, breadcrumbs or pagination -->
+		  </div>
+		  <div class="panel-body">
+			Answer
+		  </div>
+		  <div class="panel-footer">
+			<!-- buttons or inputs -->
+	    </div>
+	</div></div>
+	<div class="column col-1">
+		<div class="panel">
+		  <div class="panel-header">
+			<div class="panel-title">Task</div>
+		  </div>
+		  <div class="panel-nav">
+			<!-- navigation components: tabs, breadcrumbs or pagination -->
+		  </div>
+		  <div class="panel-body">
+			Answer
+		  </div>
+		  <div class="panel-footer">
+			<!-- buttons or inputs -->
+	      </div>
+		</div>
+	</div>
+  </div>
+  <div id="panel-deck-5" class="d-hide columns">
+    <div class="column col-1">
+		<div class="panel">
+		  <div class="panel-header">
+			<div class="panel-title">Task 6</div>
+		  </div>
+		  <div class="panel-nav">
+			<!-- navigation components: tabs, breadcrumbs or pagination -->
+		  </div>
+		  <div class="panel-body">
+			Answer
+		  </div>
+		  <div class="panel-footer">
+			<!-- buttons or inputs -->
+		  </div>
+		</div>
+	</div>
+	<div class="column col-1">
+		<div class="panel">
+			<div class="panel-header">
+				<div class="panel-title">Task</div>
+			</div>
+			<div class="panel-nav">
+				<!-- navigation components: tabs, breadcrumbs or pagination -->
+			</div>
+			<div class="panel-body">
+				Answer
+			</div>
+			<div class="panel-footer">
+			<!-- buttons or inputs -->
+			</div>
+		</div>
+	</div>
+	<div class="column col-1">
+		<div class="panel">
+		  <div class="panel-header">
+			<div class="panel-title">Task</div>
+		  </div>
+		  <div class="panel-nav">
+			<!-- navigation components: tabs, breadcrumbs or pagination -->
+		  </div>
+		  <div class="panel-body">
+			Answer
+		  </div>
+		  <div class="panel-footer">
+			<!-- buttons or inputs -->
+	    </div>
+	</div></div>
+	<div class="column col-1">
+		<div class="panel">
+		  <div class="panel-header">
+			<div class="panel-title">Task</div>
+		  </div>
+		  <div class="panel-nav">
+			<!-- navigation components: tabs, breadcrumbs or pagination -->
+		  </div>
+		  <div class="panel-body">
+			Answer
+		  </div>
+		  <div class="panel-footer">
+			<!-- buttons or inputs -->
+	    </div>
+	</div></div>
+	<div class="column col-1">
+		<div class="panel">
+		  <div class="panel-header">
+			<div class="panel-title">Task</div>
+		  </div>
+		  <div class="panel-nav">
+			<!-- navigation components: tabs, breadcrumbs or pagination -->
+		  </div>
+		  <div class="panel-body">
+			Answer
+		  </div>
+		  <div class="panel-footer">
+			<!-- buttons or inputs -->
+	      </div>
+		</div>
+	</div>
+  </div>
+ </div>
+	</div>
+</body>
+<script>
+	/*<![CDATA[*/
+	/*
+	Load cards here
+	*/
+	
+	$("li.tab-item").click(function(e){
+		$("li.tab-item").removeClass("active");
+		$(this).addClass("active");
+		$(".columns").addClass("d-hide");
+		$("#" + $(this).data("panel")).removeClass("d-hide");
+	});
+	
+	/*]]>*/
+</script>
+</html>
+</body>
+</html>
