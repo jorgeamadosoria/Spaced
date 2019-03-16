@@ -35,59 +35,67 @@
  </div>
 	</div>
 	<section class="d-hide">
+		<!-- deck panel model -->
 		<div id="deck-model" class="d-hide panel-item columns">
 
 		</div>
+		<!-- deck panel model -->
+		<!-- deck tab model -->
 		<li id="deck-tab-model" class="tab-item" data-panel="">
 			<a href="#" id="name" class="badge" data-badge=""></a>
 		</li>
-		<div id="card-model" class="column col-1">
-		<div class="panel">
-		  <div class="panel-header">
-			<div class="panel-title" id="task"></div>
-		  </div>
-		  <div class="panel-body" id="answer"></div>
-		  <div class="panel-footer">
-			<!-- buttons or inputs -->
-	      </div>
+		<!-- deck tab model -->
+		<!-- card model -->
+		<div id="card-model" class="column col-1 col-xs-2">
+			<div class="panel">
+				<div class="panel-header">
+					<div class="panel-title" id="task">
+					</div>
+				</div>
+				<div class="panel-body" id="answer">
+				</div>
+				<div class="panel-footer">
+					<i><sub id="last"></sub></i>
+				</div>
+			</div>
 		</div>
-	</div>
+		<!-- card model -->
 	</section>
 </body>
 <script>
 	/*<![CDATA[*/
-	/*
-	Load cards here
-	*/
-
+	//data load and massaging
 	var cardset = loadCardset(1);
 
-	var uniqueDecks = [];
-	
+	//select unique deck ids
 	var decks = $.map(cards, card => card.deck).filter((value, index, self) => self.indexOf(value) === index);
-	//decks.filter( (item,pos) => a.indexOf(item) == pos);
-//alert(decks);
 
-var cardsCount = _.countBy(cardset.cards.map(card => card.deck.id));
-//alert(JSON.stringify(cardsCount[6]));
+	var cardsCount = _.countBy(cardset.cards.map(card => card.deck.id));
+
 	decks.forEach(deck => {
+		//create deck panels
 		$("#deck-model").clone().attr("id",'deck-' + deck.id)
 		.appendTo($(".container"));
-	//	alert(cardsCount[deck.id]);
+	
+		//create deck tabs
 		$("#deck-tab-model").clone().attr("id","tab-deck-" + deck.id)
 		.attr("data-panel","deck-" + deck.id)
 		.find("#name").text(deck.name)
 		.attr("data-badge",cardsCount[deck.id]).end()
 		.appendTo($("#deck-tabs"));
 		
+		//activate first tab
 		$("#deck-tabs .tab-item").first().addClass("active");
+		//activate first panel
 		$(".container .panel-item").first().removeClass("d-hide");
 	});
 	
+	//create cards
 	cardset.cards.forEach(card => {
 		$("#card-model").clone().attr("id",'card-' + card.id)
 		.find("#task").text(card.task).end()
 		.find("#answer").text(card.answer).end()
+		.find("#last").text(new Date(card.last).toLocaleDateString()).end()
 		.appendTo($("#deck-" + card.deck.id));
 	});
 	
