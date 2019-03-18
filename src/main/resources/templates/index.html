@@ -6,106 +6,67 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <script src="https://code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js"></script>
+<script src="../static/js/testdata.js" th:href="@{/js/testdata.js}"></script>
+<script src="../static/js/custom.js" th:src="@{/js/custom.js}"></script>
 <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre.min.css">
 <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-exp.min.css">
 <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-icons.min.css">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 <link rel="stylesheet" href="../static/css/hover-min.css" th:href="@{/css/hover-min.css}" />
 <link rel="stylesheet" href="../static/css/custom.css" th:href="@{/css/custom.css}" />
-
-<link rel="stylesheet" href="../static/js/testdata.js" th:href="@{/js/testdata.js}" />
 </head>
 <body>
-<header class="navbar">
-  <section class="navbar-section">
-    <a href="..." class="navbar-brand mr-2">Spaced</a>
-  </section>
-  <section class="navbar-section">
-    <a href="..." class="btn btn-link">Admin</a>
-    <a href="..." class="btn btn-link">User</a>
-  </section>
-</header>
-	
-  <div class="docs-content">
-  <div class="container">
-  <div class="columns">
-    
-    <div class="column col-3">
-	<a class="card-link" href="cardset.html?id=1">
-		<div id="1" class="card cheight c-hand hvr-grow">
-		  <div class="card-image"><img class="img-responsive" src="https://www.avalonfreelibrary.org/sites/default/files/Calendar%20Images/AFPL%20website%20event%20icons-25.png" alt="OS X El Capitan"></div>
-		  <div class="card-header">
-			<div class="card-title h5">French verbs</div>
-		  </div>
-		  <div class="card-body">100 common French verbs conjugations in all tenses</div>
+	<header class="navbar">
+	  <section class="navbar-section">
+		<a href="index.html" class="navbar-brand mr-2">Spaced</a>
+	  </section>
+	  <section class="navbar-section">
+		<a href="..." class="btn btn-link">Admin</a>
+		<a href="..." class="btn btn-link">User</a>
+	  </section>
+	</header>
+	<div class="docs-content">
+		<div class="container">
+			<div class="columns">
+
+			
+			</div>
 		</div>
 	</div>
-	</a>
-  </div>
- </div>
-	</div>
+	<section class="d-hide">
+		<div id="cardset-model" class="column col-3">
+			<div id="1" class="card cheight c-hand">
+				<div class="card-image"><img class="img-responsive" src="https://www.avalonfreelibrary.org/sites/default/files/Calendar%20Images/AFPL%20website%20event%20icons-25.png" alt="OS X El Capitan"></div>
+				<div class="card-header">
+					<div class="card-title h5"></div>
+				</div>
+				<div class="card-body"></div>
+				<div class="card-footer">
+					<a id="view-button" href="cardset.html?id=" class="btn btn-primary hvr-grow">View</a>
+					&nbsp;&nbsp;
+					<a id="play-button" href="play.html?id=" class="btn btn-primary hvr-grow">Play</a>
+				</div>
+			</div>
+		</div>
+	</section>
 </body>
 <script>
 	/*<![CDATA[*/
 	/*
 	Load cards here
 	*/
+	var cardsets = loadCardsets();
 	
-	$(".card").click(function(e){
-		
-	});
+	cardsets.forEach(cardset => $("#cardset-model").clone().removeAttr("id")
+	.find(".card-image img").attr("src",cardset.image).end()
+	.find(".card-title").text(cardset.name).end()
+	.find(".card-body").text(cardset.description).end()
+	.find("#view-button").attr("href","cardset.html?id=" + cardset.id).end()
+	.find("#play-button").attr("href","play.html?id=" + cardset.id).end()
+	.appendTo(".container .columns")
+	);
 	
-//	$("#projects").on(
-//			"click",
-//			"a.project_link",
-//			function(e) {
-//				var url = /*[[@{/project/}]]*/"/project/";
-//				$.get(url + $(e.target).parents("div.project").attr("id"),
-//						function(data) {
-//							$("#projectModal #tech .tech_item:not(.d-none)")
-//									.remove();
-//							$("#projectModal #tags .tag_item:not(.d-none)")
-//									.remove();
-//							$("#projectModal #link .link_item:not(.d-none)")
-//									.remove();
-//
-//							$("#projectModal #available").text(
-//									data.available ? "Yes" : "No");
-//							$("#projectModal #description").text(
-//									data.description);
-//							$("#projectModal #name").text(data.name);
-//							$("#projectModal #image").prop("src", data.image);
-//							$("#projectModal #status").text(data.status);
-//							$("#projectModal #year").text(data.year);
-//							$("#projectModal #type").text(data.type.name);
-//							for (var i = 0; i < data.tech.length; i++) {
-//								$("#projectModal #tech").append(
-//										$(".tech_item.d-none").clone()
-//												.toggleClass("d-none").find(
-//														"img.tech").prop("src",
-//														data.tech[i].image)
-//												.prop("title",
-//														data.tech[i].name)
-//												.end());
-//							}
-//							var tags = data.tags.split(",");
-//							for (var i = 0; i < tags.length; i++) {
-//								$("#projectModal #tags").append(
-//										$(".tag_item.d-none.badge").clone()
-//												.toggleClass("d-none").text(
-//														tags[i]));
-//							}
-//							for (var i = 0; i < data.links.length; i++) {
-//								$("#projectModal #links").append(
-//										$(".link_item.d-none").clone()
-//												.toggleClass("d-none")
-//												.find("a").prop("href",
-//														data.links[i].name)
-//												.text(data.links[i].display)
-//												.end());
-//							}
-//						});
-//			});
+	
 	/*]]>*/
 </script>
 </html>
