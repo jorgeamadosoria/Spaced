@@ -3,7 +3,27 @@
 
 }
 
+.valign {
+	vertical-align:center;
+}
+
+.cheight-panel {
+	min-height: 420px;
+
+}
+
+
 a.card-link {
 	text-decoration:none;
 	color: inherit;
+}
+
+.play-panel,.button-panel {
+	padding:10px;
+}
+
+.work-panel {
+
+  min-height: 100%;
+
 }
