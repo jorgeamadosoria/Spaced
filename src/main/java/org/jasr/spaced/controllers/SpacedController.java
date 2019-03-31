@@ -18,13 +18,11 @@ public class SpacedController {
 	@Autowired
     private CardSetRepository cardSetRepository;
 
-	@Value("${angcv.export.url}")
-	private String jsonUrl;
 	
     @GetMapping("/index")
     public String index(Model model) {
     	model.addAttribute("cardsets", cardSetRepository.findAll());
-        return "index";
+        return "index.html";
     }
     /*
     @GetMapping("/about")
@@ -35,4 +33,12 @@ public class SpacedController {
     public ResponseEntity<Optional<CardSet>> project(@PathVariable Long id) {
         return new ResponseEntity<>(cardSetRepository.findById(id),HttpStatus.OK);
     }
+    
+    
+    //cardsets list
+    //today set for a cardset
+    //list of cards for a cardset
+    //card ok
+    //card wrong
+    //card CRUD
 }
