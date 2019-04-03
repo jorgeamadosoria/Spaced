@@ -30,7 +30,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.authorizeRequests().antMatchers("/admin/**").authenticated().and().antMatcher("/**").anonymous().and().logout().permitAll().and().formLogin().loginPage("/login").loginProcessingUrl("/login").defaultSuccessUrl("/admin/index").permitAll();
+	//	http.authorizeRequests().antMatchers("/admin/**").authenticated().and().antMatcher("/**").anonymous().and().logout().permitAll().and().formLogin().loginPage("/login").loginProcessingUrl("/login").defaultSuccessUrl("/admin/index").permitAll();
 	}
 
 	@Override

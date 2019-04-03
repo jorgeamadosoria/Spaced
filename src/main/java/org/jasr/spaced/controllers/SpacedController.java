@@ -22,7 +22,7 @@ public class SpacedController {
     @GetMapping("/index")
     public String index(Model model) {
     	model.addAttribute("cardsets", cardSetRepository.findAll());
-        return "index.html";
+        return "index";
     }
     /*
     @GetMapping("/about")

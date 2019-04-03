@@ -1,324 +1,74 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
+<head
+<head th:replace="fragments::head('Spaced - Admin Home')">
+<title th:text="${title}"></title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-
-<head>
-<head th:replace="fragments::head('My Portfolio - Admin')">
+<script src="https://code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js"></script>
+<script src="../static/js/testdata.js" th:href="@{/js/testdata.js}"></script>
+<script src="../static/js/custom.js" th:src="@{/js/custom.js}"></script>
+<link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre.min.css">
+<link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-exp.min.css">
+<link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-icons.min.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+<link rel="stylesheet" href="../static/css/hover-min.css" th:href="@{/css/hover-min.css}" />
+<link rel="stylesheet" href="../static/css/custom.css" th:href="@{/css/custom.css}" />
 </head>
 <body>
-	<nav th:replace="fragments :: header"></nav>
-	<div class="container">
-		<div class="row">
-			<div class="col-lg-12">
-				<ul class="nav nav-tabs" id="adminTab" role="tablist">
-					<li class="nav-item"><a class="nav-link active" id="projects-tab" data-toggle="tab" href="#projects" role="tab" aria-controls="projects" aria-selected="true">Projects</a></li>
-					<li class="nav-item"><a class="nav-link" id="techs-tab" data-toggle="tab" href="#techs" role="tab" aria-controls="techs" aria-selected="false">Tech</a></li>
-					<li class="nav-item"><a class="nav-link" id="types-tab" data-toggle="tab" href="#types" role="tab" aria-controls="types" aria-selected="false">Types</a></li>
-					<li class="nav-item"><a class="nav-link" id="password-tab" data-toggle="tab" href="#password" role="tab" aria-controls="password" aria-selected="false">Password</a></li>
-				</ul>
-				<div class="tab-content" id="adminTabContent">
-					<div class="tab-pane active" id="projects" role="tabpanel" aria-labelledby="projects-tab">
-						<br />
-						<form id="projectForm" method="post" action="#" th:action="@{/admin/project}">
-							<input type="hidden" id="id" name="id">
-							<div class="card-form card">
-								<div class="card-body">
-									<div class="form-row">
-										<div class="col">
-											<div class="form-check">
-												<input class="form-check-input" type="checkbox" id="available" name="available" />
-												<label class="form-check-label" for="available"> Public </label>
-											</div>
-										</div>
-										<div class="col">
-											<input id="image" placeholder="Image Url" name="image" class="form-control" />
-										</div>
-										<div class="col">
-											<input id="name" placeholder="Name" name="name" maxlength="255" class="form-control" />
-										</div>
-									</div>
-									<div class="form-row">
-										<div class="col">
-											<select id="status" name="status" class="form-control">
-												<option th:each="status : ${statuses}" th:value="${status}" th:text="${status}"></option>
-											</select>
-										</div>
-										<div class="col">
-											<select id="type" name="type" class="form-control">
-												<option th:each="type : ${types}" th:value="${type.id}" th:text="${type.name}" />
-											</select>
-										</div>
-										<div class="col">
-											<input id="year" name="year" placeholder="Year" type="number" class="form-control" />
-										</div>
-									</div>
-									<div class="form-row">
-										<div class="col">
-											<textarea id="description" name="description" placeholder="Description" class="form-control" rows="10"></textarea>
-										</div>
-									</div>
-									<div class="form-row">
-										<div class="col">
-											<input id="tags" placeholder="Tags" maxlength="255" name="tags" data-role="tagsinput" class="form-control" />
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="card-form  card">
-								<div class="card-body">
-									<div class="form-row">
-										<div class="col" th:each="t : ${tech}">
-											<input id="tech" name="tech" type="checkbox" th:value="${t.id}">
-											<label class="form-check-label" th:text="${t.name}"> Tech1 </label>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="card-form  card">
-								<div class="card-body">
-									<div id="links"></div>
-									<div class="form-row">
-										<div class="col-md-11 col-lg-11 justify-content-end">
-											<button id="new_link_button" type="button" class="btn btn-secondary">New link</button>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="form-row">
-								<div class="col-md-12 col-lg-12 form-group row justify-content-end">
-									<button type="submit" class="btn btn-secondary">Upsert</button>
-								</div>
-							</div>
-						</form>
-						<div id="new_link" class="link form-row d-none">
-							<div class="col">
-								<input id="display" maxlength="255" placeholder="display" name="Display" class="form-control" />
-							</div>
-							<div class="col">
-								<input id="name" name="name" maxlength="255" placeholder="Url" class="form-control" />
-							</div>
-							<div class="col">
-								<button id="remove" type="button" class="btn btn-secondary">Remove</button>
-							</div>
-						</div>
-						<div class="table-responsive-md table-responsive-lg">
-							<table id="projects" class="table table-light">
-								<thead>
-									<th>Name</th>
-									<th>Description</th>
-									<th>Links</th>
-									<th>Tech</th>
-									<th>Tags</th>
-									<th>Properties</th>
-									<th>Actions</th>
-								</thead>
-								<tbody>
-									<tr th:each="project : ${projects}">
-										<td>
-											<ul class="unstyle">
-												<li th:text="*{project.name}">Onions</li>
-												<li><img class="logo" src="http://placehold.it/500x300" th:src="*{project.image}" /></li>
-											</ul>
-										</td>
-										<td th:text="*{project.description}">Description, should be a large chunk of text since it does not have limits in the DB</td>
-										<td>
-											<ul class="unstyle">
-												<li th:each="link : *{project.links}"><a th:text="*{link.display}" th:href="*{link.name}" />
-											</ul>
-										</td>
-										<td><span th:each="tech : *{project.tech}"> <span th:text="*{tech.name}" /></span></td>
-										<td th:text="${#strings.replace(project.tags,',',', ')}">tag1,tag2,tag3</td>
-										<td>
-											<ul class="unstyle">
-												<li th:text="*{project.status}">ACTIVE</li>
-												<li th:text="*{project.available}?'PUBLIC':'PRIVATE'">YES</li>
-												<li th:text="*{project.type.name}">WEB</li>
-												<li th:text="*{project.year}">2041</li>
-											</ul>
-										</td>
-										<td><a class="fas fa-pen text-secondary" name="edit" th:id="*{project.id}" href="#"></a> &nbsp; <a class="fas fa-trash text-secondary" name="delete" th:id="*{project.id}" href="#"></a></td>
-									</tr>
-								</tbody>
-							</table>
-						</div>
-					</div>
-					<div class="tab-pane fade" id="techs" role="tabpanel" aria-labelledby="techs-tab">
-						<br />
-						<form id="techForm" method="post" action="#" th:action="@{/admin/tech}" th:object="${tech}">
-							<input type="hidden" id="id" name="id" th:value="${id}">
-							<div class="form-row">
-								<div class="col">
-									<input id="name" name="name" maxlength="255" class="form-control" placeholder="Name">
-								</div>
-								<div class="col">
-									<input id="image" name="image" maxlength="255" class="form-control" placeholder="Image Url">
-								</div>
-								<div class="col">
-									<button type="submit" class="btn btn-secondary">Upsert</button>
-								</div>
-							</div>
-						</form>
-						<table id="tech" class="table table-light">
-							<thead>
-								<th>Name</th>
-								<th>Image</th>
-								<th>Actions</th>
-							</thead>
-							<tbody>
-								<tr th:each="tech : ${tech}">
-									<td th:text="*{tech.name}">Onions</td>
-									<td><img class="tech" th:src="*{tech.image}" /></td>
-									<td><a name="edit" th:id="*{tech.id}" href="#" class="fas fa-pen text-secondary"></a> &nbsp; <a name="delete" th:id="*{tech.id}" href="#" class="fas fa-trash text-secondary"></a></td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-					<div class="tab-pane fade" id="types" role="tabpanel" aria-labelledby="types-tab">
-						<br />
-						<form id="typeForm" method="post" action="#" th:action="@{/admin/type}" th:object="${type}">
-							<input type="hidden" id="id" name="id">
-							<div class="form-row">
-								<div class="col">
-									<input id="name" name="name" maxlength="255" class="form-control" placeholder="Name">
-								</div>
-								<div class="col">
-									<input id="description" name="description" maxlength="255" class="form-control" placeholder="Description">
-								</div>
-								<div class="col">
-									<button type="submit" class="btn btn-secondary">Upsert</button>
-								</div>
-							</div>
-						</form>
-						<table id="types" class="table table-light">
-							<thead>
-								<th>Name</th>
-								<th>Description</th>
-								<th>Actions</th>
-							</thead>
-							<tbody>
-								<tr th:each="type : ${types}">
-									<td th:text="*{type.name}">Onions</td>
-									<td th:text="*{type.description}">2.41</td>
-									<td><a name="edit" th:id="*{type.id}" href="#" class="fas fa-pen text-secondary"></a> &nbsp; <a name="delete" th:id="*{type.id}" href="#" class="fas fa-trash text-secondary"></a></td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-					<div class="tab-pane fade" id="password" role="tabpanel" aria-labelledby="password-tab">
-						<br />
-						<form id="passForm" method="post" action="#" th:action="@{/admin/password}">
-							<div class="form-row">
-								<div class="form-group col">
-									<input id="cpassword" name="cpassword" placeholder="Current password" type="password" class="form-control">
-								</div>
-								<div class="form-group col">
-									<input id="npassword" placeholder="New password" name="npassword" type="password" class="form-control">
-								</div>
-								<div class="form-group col">
-									<input id="rpassword" name="rpassword" placeholder="Repeat password" type="password" class="form-control">
-								</div>
-								<div class="form-group col">
-									<button type="submit" class="btn btn-secondary">Update</button>
-								</div>
-						</form>
-					</div>
-				</div>
+	<header class="navbar">
+	  <section class="navbar-section">
+		<a href="index.html" class="navbar-brand mr-2">Spaced</a>
+	  </section>
+	  <section class="navbar-section">
+		<a href="..." class="btn btn-link">Admin</a>
+		<a href="..." class="btn btn-link">User</a>
+	  </section>
+	</header>
+	<div class="docs-content">
+		<div class="container">
+			<div class="columns">
+
+			
 			</div>
 		</div>
 	</div>
-	<!-- #main -->
-	<script th:inline="javascript">
-		/*<![CDATA[*/
-		$("div#links").on("click", "button#remove", function(e) {
-			$(e.target).parents("div.link").remove();
-		})
-
-		function addLink(display, name, idx) {
-			var newLink = $("div#new_link").clone();
-			$(newLink).prop("id", "").toggleClass("d-none");
-			$(newLink).find("#display")
-					.prop("id", "links[" + idx + "].display").prop("name",
-							"links[" + idx + "].display").val(display);
-			$(newLink).find("#name").prop("id", "links[" + idx + "].name")
-					.prop("name", "links[" + idx + "].name").val(name);
-			$("#projectForm #links").append(newLink);
-		};
-
-		$("#types a[name=edit]").click(function(e) {
-			var url = /*[[@{/admin/type/}]]*/"";
-			$.get(url + $(e.target).attr("id"), function(data) {
-				$("#typeForm input#id").val(data.id);
-				$("#typeForm input#name").val(data.name);
-				$("#typeForm input#description").val(data.description);
-			});
-		});
-		$("#types a[name=delete]").click(function(e) {
-			var url = /*[[@{/admin/type/delete/}]]*/"";
-			$.get(url + $(e.target).attr("id"), function(data) {
-				$(e.target).parents("tr").remove();
-			});
-		});
-
-		$("#tech a[name=edit]").click(function(e) {
-			var url = /*[[@{/admin/tech/}]]*/"";
-			$.get(url + $(e.target).attr("id"), function(data) {
-				$("#techForm input#id").val(data.id);
-				$("#techForm input#name").val(data.name);
-				$("#techForm input#image").val(data.image);
-			});
-		});
-		$("#tech a[name=delete]").click(function(e) {
-			var url = /*[[@{/admin/tech/delete/}]]*/"";
-			$.get(url + $(e.target).attr("id"), function(data) {
-				$(e.target).parents("tr").remove();
-			});
-		});
-
-		$("#new_link_button").click(function(e) {
-			var count = $("#projectForm #links > div").length;
-			addLink(null, null, count);
-		});
-
-		$("#projects a[name=edit]").click(
-				function(e) {
-					var url = /*[[@{project/}]]*/"";
-					$.get(url + $(e.target).attr("id"), function(data) {
-						$("#projectForm #id").val(data.id);
-						$("#projectForm #available").prop("checked",
-								data.available);
-						$("#projectForm #description").val(data.description);
-						$("#projectForm #name").val(data.name);
-						$("#projectForm #image").val(data.image);
-						$("#projectForm #status").val(data.status);
-						$("#projectForm #year").val(data.year);
-						//$("#projectForm #tags").tagsinput('input').val();
-						//	$('#projectForm #tags').tagsinput('add', 'some tag');
-						var tags = data.tags.split(",");
-						for (var i = 0; i < tags.length; i++) {
-							//	$('#projectForm #tags').tagsinput();
-							$('#projectForm #tags').tagsinput('add', tags[i]);
-						}
-						//	$('#projectForm #tags').tagsinput('focus');
-						//$('#projectForm #tags').tagsinput('refresh');
-						$("#projectForm #type").val(data.type.id);
-						$("#projectForm #tech").val(data.tech);
-						for (var i = 0; i < data.tech.length; i++) {
-							$("input#tech[value='" + data.tech[i].id + "']")
-									.prop("checked", true);
-						}
-						for (var i = 0; i < data.links.length; i++) {
-							addLink(data.links[i].display, data.links[i].name,
-									i);
-						}
-					});
-				});
-		$("#projects a[name=delete]").click(function(e) {
-			var url = /*[[@{/admin/project/delete/}]]*/"";
-			$.get(url + $(e.target).attr("id"), function(data) {
-				$(e.target).parents("tr").remove();
-			});
-		});
-		/*]]>*/
-	</script>
+	<section class="d-hide">
+		<div id="cardset-model" class="column col-3">
+			<div id="1" class="card cheight c-hand">
+				<div class="card-image"><img class="img-responsive" src="https://www.avalonfreelibrary.org/sites/default/files/Calendar%20Images/AFPL%20website%20event%20icons-25.png" alt="OS X El Capitan"></div>
+				<div class="card-header">
+					<div class="card-title h5"></div>
+				</div>
+				<div class="card-body"></div>
+				<div class="card-footer">
+					<a id="view-button" href="cardset.html?id=" class="btn btn-primary hvr-grow">View</a>
+					&nbsp;&nbsp;
+					<a id="play-button" href="play.html?id=" class="btn btn-primary hvr-grow">Play</a>
+				</div>
+			</div>
+		</div>
+	</section>
+</body>
+<script>
+	/*<![CDATA[*/
+	/*
+	Load cards here
+	*/
+	var cardsets = loadCardsets();
+	
+	cardsets.forEach(cardset => $("#cardset-model").clone().removeAttr("id")
+	.find(".card-image img").attr("src",cardset.image).end()
+	.find(".card-title").text(cardset.name).end()
+	.find(".card-body").text(cardset.description).end()
+	.find("#view-button").attr("href","cardset.html?id=" + cardset.id).end()
+	.find("#play-button").attr("href","play.html?id=" + cardset.id).end()
+	.appendTo(".container .columns")
+	);
+	
+	
+	/*]]>*/
+</script>
+</html>
 </body>
 </html>
