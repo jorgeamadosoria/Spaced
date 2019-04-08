@@ -24,16 +24,6 @@ public class SpacedController {
     	model.addAttribute("cardsets", cardSetRepository.findAll());
         return "index";
     }
-    /*
-    @GetMapping("/about")
-    public String about(Model model) {
-    }
-    */
-    @GetMapping("/cardSet/{id}")
-    public ResponseEntity<Optional<CardSet>> project(@PathVariable Long id) {
-        return new ResponseEntity<>(cardSetRepository.findById(id),HttpStatus.OK);
-    }
-    
     
     //cardsets list
     //today set for a cardset

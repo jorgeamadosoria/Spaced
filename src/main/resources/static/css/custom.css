@@ -12,6 +12,10 @@
 
 }
 
+.fixed-image {
+	min-height:200px;
+	max-height:200px
+}
 
 a.card-link {
 	text-decoration:none;

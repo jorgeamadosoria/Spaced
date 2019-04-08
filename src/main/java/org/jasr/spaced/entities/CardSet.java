@@ -17,6 +17,7 @@ import org.hibernate.annotations.CascadeType;
 public class CardSet extends BaseEntity {
 
 	private String name;
+	private String image;
 	@Column(columnDefinition="TEXT")
 	private String description;
 	@OneToMany

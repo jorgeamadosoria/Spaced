@@ -17,56 +17,96 @@
 </head>
 <body>
 	<header class="navbar">
-	  <section class="navbar-section">
-		<a href="index.html" class="navbar-brand mr-2">Spaced</a>
-	  </section>
-	  <section class="navbar-section">
-		<a href="..." class="btn btn-link">Admin</a>
-		<a href="..." class="btn btn-link">User</a>
-	  </section>
+		<section class="navbar-section">
+			<a href="index.html" class="navbar-brand mr-2">Spaced</a>
+		</section>
+		<section class="navbar-section">
+			<a href="..." class="btn btn-link">Admin</a> <a href="..." class="btn btn-link">User</a>
+		</section>
 	</header>
 	<div class="docs-content">
 		<div class="container">
 			<div class="columns">
-
-			
+				<div id="create-cardset" class="card cheight">
+					<div class="card-body">
+						<a id="cardset-add" href="#modal-create-cardset"><i class="fas fa-plus-circle"></i></a>
+					</div>
+				</div>
+				<div th:each="cardset : ${cardsets}" class="column col-3">
+					<div id="cardset-${cardset.id}" class="card cheight">
+						<div class="card-image">
+							<img class="fixed-image img-responsive" src="${cardset.image}">
+						</div>
+						<div class="card-header">
+							<div class="card-title h5" th:text="${cardset.name}"></div>
+						</div>
+						<div class="card-body" th:text="${cardset.description}"></div>
+						<div class="card-footer">
+						<div class="text-center">
+							<a href="cardset.html?id=${cardset.id}" title="remove set" class="btn btn-sm btn-error hvr-grow"><i class="fas fa-trash-alt"></i></a>&nbsp;&nbsp;
+							<a href="cardset.html?id=${cardset.id}" title="view cards" class="btn btn-sm btn-primary hvr-grow"><i class="fas fa-eye"></i></a> &nbsp;&nbsp;
+							<a href="play.html?id=${cardset.id}" title="daily play" class="btn btn-sm btn-success hvr-grow"><i class="fas fa-play"></i></a>
+						</div>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
 	<section class="d-hide">
 		<div id="cardset-model" class="column col-3">
 			<div id="1" class="card cheight c-hand">
-				<div class="card-image"><img class="img-responsive" src="https://www.avalonfreelibrary.org/sites/default/files/Calendar%20Images/AFPL%20website%20event%20icons-25.png" alt="OS X El Capitan"></div>
+				<div class="card-image">
+					<img class="fixed-image img-responsive" src="https://www.avalonfreelibrary.org/sites/default/files/Calendar%20Images/AFPL%20website%20event%20icons-25.png" alt="OS X El Capitan">
+				</div>
 				<div class="card-header">
 					<div class="card-title h5"></div>
 				</div>
 				<div class="card-body"></div>
 				<div class="card-footer">
-					<a id="view-button" href="cardset.html?id=" class="btn btn-primary hvr-grow">View</a>
-					&nbsp;&nbsp;
-					<a id="play-button" href="play.html?id=" class="btn btn-primary hvr-grow">Play</a>
+					<a id="view-button" href="cardset.html?id=" class="btn btn-primary hvr-grow">View</a> &nbsp;&nbsp; <a id="play-button" href="play.html?id=" class="btn btn-primary hvr-grow">Play</a>
 				</div>
 			</div>
 		</div>
 	</section>
+	<div class="modal modal-lg" id="modal-create-cardset">
+		<a href="#close" class="modal-overlay" aria-label="Close"></a>
+		<div class="modal-container">
+			<div class="modal-header">
+				<a href="#close" class="btn btn-clear float-right" aria-label="Close"></a>
+				<div class="modal-title h5">New Cardset</div>
+				<form method="post" action="/entities/cardset">
+					<div class="form-group">
+						<label class="form-label" for="input-example-1">Name</label>
+						<input class="form-input" type="text" id="name" name="name" placeholder="Name">
+					</div>
+					<div class="form-group">
+						<label class="form-label" for="input-example-1">Description</label>
+						<textarea class="form-input" type="text" id="description" name="description" placeholder="Description"></textarea>
+					</div>
+					<div class="form-group">
+						<label class="form-label" for="input-example-1">Image URL</label>
+						<input class="form-input" type="text" id="image" name="image" placeholder="Image URL">
+					</div>
+					<div class="form-group">
+						<button type="reset" class="btn btn-primary">Reset</button>
+						<button type="submit" class="btn btn-primary">Submit</button>
+					</div>
+				</form>
+			</div>
+		</div>
+		<div class="modal-body">
+			<div class="content">
+				<!-- content here -->
+			</div>
+		</div>
+		<div class="modal-footer">...</div>
+	</div>
+	</div>
 </body>
 <script>
 	/*<![CDATA[*/
-	/*
-	Load cards here
-	*/
-	var cardsets = loadCardsets();
-	
-	cardsets.forEach(cardset => $("#cardset-model").clone().removeAttr("id")
-	.find(".card-image img").attr("src",cardset.image).end()
-	.find(".card-title").text(cardset.name).end()
-	.find(".card-body").text(cardset.description).end()
-	.find("#view-button").attr("href","cardset.html?id=" + cardset.id).end()
-	.find("#play-button").attr("href","play.html?id=" + cardset.id).end()
-	.appendTo(".container .columns")
-	);
-	
-	
+	$("#cardset-add").click(e -> $(this.attr("href")).addClass("active"));
 	/*]]>*/
 </script>
 </html>
