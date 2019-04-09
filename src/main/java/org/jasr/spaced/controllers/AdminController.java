@@ -42,9 +42,10 @@ public class AdminController {
 	}
 
 	@PostMapping("/card")
-	public String upsertType(@ModelAttribute Card entity) {
-		cardRepository.saveAndFlush(entity);
-		return "redirect:/index";
+	public String upsertCard(Model model, @ModelAttribute(name="cardset-id") Long id, @ModelAttribute Card entity) {
+		entity.setCardset(new CardSet(id));
+		this.upsert(cardRepository, model, entity);
+		return "redirect:/cardset?id=" + id;
 	}
 //
 //	@PostMapping("/password")

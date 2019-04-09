@@ -29,7 +29,41 @@ public class CardSet extends BaseEntity {
 	@Cascade({CascadeType.ALL})
 	private List<Deck> decks;
 
-    public String getName() {
+	
+	
+    public CardSet() {
+		super();
+	}
+
+	public CardSet(Long id) {
+		super(id);
+	}
+
+	public List<Card> getCards() {
+		return cards;
+	}
+
+	public void setCards(List<Card> cards) {
+		this.cards = cards;
+	}
+
+	public List<Deck> getDecks() {
+		return decks;
+	}
+
+	public void setDecks(List<Deck> decks) {
+		this.decks = decks;
+	}
+
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
+	}
+
+	public String getName() {
 		return name;
 	}
 

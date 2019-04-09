@@ -9,6 +9,17 @@ public class Card extends BaseEntity {
 	private String answer;
 	@ManyToOne
 	private Deck deck;
+	@ManyToOne
+	private CardSet cardset;
+
+	
+	public CardSet getCardset() {
+		return cardset;
+	}
+
+	public void setCardset(CardSet cardset) {
+		this.cardset = cardset;
+	}
 
 	public String getTask() {
 		return task;

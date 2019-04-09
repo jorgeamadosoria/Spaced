@@ -14,103 +14,74 @@
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 <link rel="stylesheet" href="../static/css/hover-min.css" th:href="@{/css/hover-min.css}" />
 <link rel="stylesheet" href="../static/css/custom.css" th:href="@{/css/custom.css}" />
-
-
 </head>
 <body>
-<header class="navbar">
-  <section class="navbar-section">
-    <a href="index.html" class="navbar-brand mr-2">Spaced</a>
-  </section>
-  <section class="navbar-section">
-    <a href="..." class="btn btn-link">Admin</a>
-    <a href="..." class="btn btn-link">User</a>
-  </section>
-</header>
-	
+	<header class="navbar">
+		<section class="navbar-section">
+			<a href="index.html" class="navbar-brand mr-2">Spaced</a>
+		</section>
+		<section class="navbar-section">
+			<a href="..." class="btn btn-link">Admin</a> <a href="..." class="btn btn-link">User</a>
+		</section>
+	</header>
 	<div class="docs-content">
 		<ul id="deck-tabs" class="tab tab-block">
 		</ul>
-		<div class="container play-panel">
-		</div>
-	</div>
-	<section class="d-hide">
-		<!-- deck panel model -->
-		<div id="deck-model" class="d-hide columns">
-		</div>
-		<!-- deck panel model -->
-		<!-- deck tab model -->
-		<li id="deck-tab-model" class="tab-item" data-panel="">
-			<a href="#" id="name" class="badge" data-badge=""></a>
-		</li>
-		<!-- deck tab model -->
-		<!-- card model -->
-		<div id="card-model" class="column col-3">
-			<div class="card cheight">
-				<div class="card-header">
-					<div class="card-title" id="task">
+		<div class="container">
+			<p th:text="${cardset.name}"></p>
+			<p th:text="${cardset.description}"></p>
+			<p th:text="${cardset.image}"></p>
+			<div class="columns">
+				<div class="card col-2 cheight">
+					<div class="card-body" id="answer">
+						<a id="card-add" href="#modal-create-card"><i class="fas fa-plus-circle"></i></a>
 					</div>
 				</div>
-				<div class="card-body" id="answer">
-				</div>
-				<div class="card-footer">
-					<i><sub id="last"></sub></i>
+				<div th:each="card: ${cardset.cards}" class="card col-2 cheight">
+					<div class="card-header">
+						<div class="card-title" id="task" th:text="${card.task}"></div>
+					</div>
+					<div class="card-body" id="answer" th:text="${card.answer}"></div>
+					<div class="card-footer" th:text="${card.deck} ? ${card.deck.name} : '-'"></div>
 				</div>
 			</div>
 		</div>
-		<!-- card model -->
-	</section>
+	</div>
+	</div>
+	<div class="modal modal-lg" id="modal-create-card">
+		<a href="#close" class="modal-overlay" aria-label="Close"></a>
+		<div class="modal-container">
+			<div class="modal-header">
+				<a href="#close" class="btn btn-clear float-right" aria-label="Close"></a>
+				<div class="modal-title h5">New Card</div>
+				<form method="post" action="/entities/card">
+					<input type="hidden" id="cardset-id" name="cardset-id" th:value="${cardset.id}">
+					<div class="form-group">
+						<label class="form-label" for="input-example-1">Task</label>
+						<input class="form-input" type="text" id="task" name="task" placeholder="Task">
+					</div>
+					<div class="form-group">
+						<label class="form-label" for="input-example-1">Answer</label>
+						<textarea class="form-input" type="text" id="answer" name="answer" placeholder="Answer"></textarea>
+					</div>
+					<div class="form-group">
+						<button type="reset" class="btn btn-primary">Reset</button>
+						<button type="submit" class="btn btn-primary">Submit</button>
+					</div>
+				</form>
+			</div>
+		</div>
+		<div class="modal-body">
+			<div class="content">
+				<!-- content here -->
+			</div>
+		</div>
+		<div class="modal-footer">...</div>
+	</div>
 </body>
 <script>
 	/*<![CDATA[*/
-	//data load and massaging
-	var cardset = loadCardset(1);
-
-	//select unique deck ids
-	var decks = $.map(cards, card => card.deck).filter((value, index, self) => self.indexOf(value) === index);
-
-	var cardsCount = _.countBy(cardset.cards.map(card => card.deck.id));
-
-	decks.forEach(deck => {
-		//create deck panels
-		$("#deck-model").clone().attr("id",'deck-' + deck.id)
-		.appendTo($(".container"));
-	
-		//create deck tabs
-		$("#deck-tab-model").clone().attr("id","tab-deck-" + deck.id)
-		.attr("data-panel","deck-" + deck.id)
-		.find("#name").text(deck.name)
-		.attr("data-badge",cardsCount[deck.id]).end()
-		.appendTo($("#deck-tabs"));
-		
-		//activate first tab
-		$("#deck-tabs .tab-item").first().addClass("active");
-		//activate first panel
-		$(".container .columns").first().removeClass("d-hide");
-	});
-	
-	//create cards
-	cardset.cards.forEach(card => {
-		$("#card-model").clone().attr("id",'card-' + card.id)
-		.find("#task").text(card.task).end()
-		.find("#answer").text(card.answer).end()
-		.find("#last").text(new Date(card.last).toLocaleDateString()).end()
-		.appendTo($("#deck-" + card.deck.id + ".columns" ));
-	});
-	
-	
-	
-	
-	//================================================
-	
-	//page functionality
-	$("li.tab-item").click(function(e){
-		$("li.tab-item").removeClass("active");
-		$(this).addClass("active");
-		$(".columns").addClass("d-hide");
-		$("#" + $(this).data("panel")).removeClass("d-hide");
-	});
-	
+	$("#card-add").click(e => $(this.attr("href")).addClass("active"));
 	/*]]>*/
 </script>
 </html>

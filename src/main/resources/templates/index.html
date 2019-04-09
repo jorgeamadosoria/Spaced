@@ -43,9 +43,9 @@
 						<div class="card-body" th:text="${cardset.description}"></div>
 						<div class="card-footer">
 						<div class="text-center">
-							<a href="cardset.html?id=${cardset.id}" title="remove set" class="btn btn-sm btn-error hvr-grow"><i class="fas fa-trash-alt"></i></a>&nbsp;&nbsp;
-							<a href="cardset.html?id=${cardset.id}" title="view cards" class="btn btn-sm btn-primary hvr-grow"><i class="fas fa-eye"></i></a> &nbsp;&nbsp;
-							<a href="play.html?id=${cardset.id}" title="daily play" class="btn btn-sm btn-success hvr-grow"><i class="fas fa-play"></i></a>
+							<a th:href="@{'cardset?id=' + ${cardset.id}}" title="remove set" class="btn btn-sm btn-error hvr-grow"><i class="fas fa-trash-alt"></i></a>&nbsp;&nbsp;
+							<a th:href="@{'cardset?id=' + ${cardset.id}}" title="view cards" class="btn btn-sm btn-primary hvr-grow"><i class="fas fa-edit"></i></a> &nbsp;&nbsp;
+							<a th:href="@{'play?id=' + ${cardset.id}}" title="daily play" class="btn btn-sm btn-success hvr-grow"><i class="fas fa-play"></i></a>
 						</div>
 						</div>
 					</div>
@@ -53,22 +53,6 @@
 			</div>
 		</div>
 	</div>
-	<section class="d-hide">
-		<div id="cardset-model" class="column col-3">
-			<div id="1" class="card cheight c-hand">
-				<div class="card-image">
-					<img class="fixed-image img-responsive" src="https://www.avalonfreelibrary.org/sites/default/files/Calendar%20Images/AFPL%20website%20event%20icons-25.png" alt="OS X El Capitan">
-				</div>
-				<div class="card-header">
-					<div class="card-title h5"></div>
-				</div>
-				<div class="card-body"></div>
-				<div class="card-footer">
-					<a id="view-button" href="cardset.html?id=" class="btn btn-primary hvr-grow">View</a> &nbsp;&nbsp; <a id="play-button" href="play.html?id=" class="btn btn-primary hvr-grow">Play</a>
-				</div>
-			</div>
-		</div>
-	</section>
 	<div class="modal modal-lg" id="modal-create-cardset">
 		<a href="#close" class="modal-overlay" aria-label="Close"></a>
 		<div class="modal-container">
@@ -106,7 +90,7 @@
 </body>
 <script>
 	/*<![CDATA[*/
-	$("#cardset-add").click(e -> $(this.attr("href")).addClass("active"));
+	$("#cardset-add").click(e => $(this.attr("href")).addClass("active"));
 	/*]]>*/
 </script>
 </html>
