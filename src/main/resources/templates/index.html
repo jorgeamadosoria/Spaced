@@ -43,9 +43,9 @@
 						<div class="card-body" th:text="${cardset.description}"></div>
 						<div class="card-footer">
 						<div class="text-center">
-							<a th:href="@{'cardset?id=' + ${cardset.id}}" title="remove set" class="btn btn-sm btn-error hvr-grow"><i class="fas fa-trash-alt"></i></a>&nbsp;&nbsp;
-							<a th:href="@{'cardset?id=' + ${cardset.id}}" title="view cards" class="btn btn-sm btn-primary hvr-grow"><i class="fas fa-edit"></i></a> &nbsp;&nbsp;
-							<a th:href="@{'play?id=' + ${cardset.id}}" title="daily play" class="btn btn-sm btn-success hvr-grow"><i class="fas fa-play"></i></a>
+							<a th:href="@{'entities/cardset/delete/' + ${cardset.id}}" title="remove set" class="btn btn-sm btn-error hvr-grow"><i class="fas fa-trash-alt"></i></a>&nbsp;&nbsp;
+							<a th:href="@{'entities/cardset/' + ${cardset.id}}" title="edit set" class="btn btn-sm btn-primary hvr-grow"><i class="fas fa-edit"></i></a> &nbsp;&nbsp;
+							<a th:href="@{'play/' + ${cardset.id}}" title="daily play" class="btn btn-sm btn-success hvr-grow"><i class="fas fa-play"></i></a>
 						</div>
 						</div>
 					</div>

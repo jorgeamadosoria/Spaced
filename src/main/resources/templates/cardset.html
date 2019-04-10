@@ -37,12 +37,17 @@
 						<a id="card-add" href="#modal-create-card"><i class="fas fa-plus-circle"></i></a>
 					</div>
 				</div>
-				<div th:each="card: ${cardset.cards}" class="card col-2 cheight">
+				<div th:each="card: ${cardset.cards}" th:id="${card.id}" class="card col-2 cheight">
 					<div class="card-header">
 						<div class="card-title" id="task" th:text="${card.task}"></div>
+						
 					</div>
 					<div class="card-body" id="answer" th:text="${card.answer}"></div>
-					<div class="card-footer" th:text="${card.deck} ? ${card.deck.name} : '-'"></div>
+					<div class="card-footer">
+						<span th:text="${card.deck} ? ${card.deck.name} : '-'"></span>
+						<a href="#" title="edit set" class="link-edit btn btn-sm btn-primary hvr-grow"><i class="fas fa-edit"></i></a>&nbsp;&nbsp;
+						<a href="#" title="delete set" class="link-delete btn btn-sm btn-error hvr-grow"><i class="fas fa-trash-alt"></i></a>&nbsp;&nbsp;
+					</div>
 				</div>
 			</div>
 		</div>
@@ -82,6 +87,14 @@
 <script>
 	/*<![CDATA[*/
 	$("#card-add").click(e => $(this.attr("href")).addClass("active"));
+	$("a.link-edit").click(e => {
+		var id = $(this).parent(".card").attr("id");
+		$("#modal-create-card").find("#task").value($("div#" + id + " #task").text()).end()
+		.find("#answer").value($("div#" + id + " #answer").text()).end()
+		.addClass("active");
+		e.stopPropagation();
+	});
+	$("a.link-delete").click(e => {$.get('entities/card/delete/' + $(this).parent(".card").attr("id"),() => $(".card #" + $(this).parent(".card").attr("id")).remove() ); e.stopPropagation()});
 	/*]]>*/
 </script>
 </html>
