@@ -1,5 +1,7 @@
 package org.jasr.spaced.entities;
 
+import java.util.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 
@@ -7,12 +9,29 @@ import javax.persistence.ManyToOne;
 public class Card extends BaseEntity {
 	private String task;
 	private String answer;
-	@ManyToOne
-	private Deck deck;
+	private Date play;
+	private Date success;
 	@ManyToOne
 	private CardSet cardset;
 
 	
+
+	public Date getPlay() {
+		return play;
+	}
+
+	public void setPlay(Date play) {
+		this.play = play;
+	}
+
+	public Date getSuccess() {
+		return success;
+	}
+
+	public void setSuccess(Date success) {
+		this.success = success;
+	}
+
 	public CardSet getCardset() {
 		return cardset;
 	}
@@ -35,14 +54,6 @@ public class Card extends BaseEntity {
 
 	public void setAnswer(String answer) {
 		this.answer = answer;
-	}
-
-	public Deck getDeck() {
-		return deck;
-	}
-
-	public void setDeck(Deck deck) {
-		this.deck = deck;
 	}
 
 }

@@ -24,12 +24,6 @@ public class CardSet extends BaseEntity {
 	@JoinColumn(name = "cardset_id")
 	@Cascade({CascadeType.ALL})
 	private List<Card> cards;
-	@OneToMany
-	@JoinColumn(name = "cardset_id")
-	@Cascade({CascadeType.ALL})
-	private List<Deck> decks;
-
-	
 	
     public CardSet() {
 		super();
@@ -45,14 +39,6 @@ public class CardSet extends BaseEntity {
 
 	public void setCards(List<Card> cards) {
 		this.cards = cards;
-	}
-
-	public List<Deck> getDecks() {
-		return decks;
-	}
-
-	public void setDecks(List<Deck> decks) {
-		this.decks = decks;
 	}
 
 	public String getImage() {

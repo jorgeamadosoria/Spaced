@@ -44,8 +44,7 @@
 					</div>
 					<div class="card-body" id="answer" th:text="${card.answer}"></div>
 					<div class="card-footer">
-						<span th:text="${card.deck} ? ${card.deck.name} : '-'"></span>
-						<a href="#" title="edit set" class="link-edit btn btn-sm btn-primary hvr-grow"><i class="fas fa-edit"></i></a>&nbsp;&nbsp;
+						<a href="#modal-create-card" title="edit set" class="link-edit btn btn-sm btn-primary hvr-grow"><i class="fas fa-edit"></i></a>&nbsp;&nbsp;
 						<a href="#" title="delete set" class="link-delete btn btn-sm btn-error hvr-grow"><i class="fas fa-trash-alt"></i></a>&nbsp;&nbsp;
 					</div>
 				</div>
@@ -61,6 +60,7 @@
 				<div class="modal-title h5">New Card</div>
 				<form method="post" action="/entities/card">
 					<input type="hidden" id="cardset-id" name="cardset-id" th:value="${cardset.id}">
+					<input type="hidden" id="id" name="id">
 					<div class="form-group">
 						<label class="form-label" for="input-example-1">Task</label>
 						<input class="form-input" type="text" id="task" name="task" placeholder="Task">
@@ -88,14 +88,17 @@
 	/*<![CDATA[*/
 	$("#card-add").click(e => $(this.attr("href")).addClass("active"));
 	$("a.link-edit").click(e => {
-		var id = $(e.target).parent().parents(".card").attr("id");
-		$("#modal-create-card #task").value($(e.target).parent().parents(".card").find("#task").text());
-		$("#modal-create-card #answer").value($(e.target).parent().parents(".card").find("#answer").text());
-		$("#modal-create-card").addClass("active");
+		var card = $(e.target).parent().parents(".card");
+		var id = card.attr("id");
+		$("#modal-create-card #id").val(id);
+		$("#modal-create-card #task").val(card.find("#task").text());
+		$("#modal-create-card #answer").val(card.find("#answer").text());
+		
+		$($(e.target).attr("href")).addClass("active");
 		e.stopPropagation();
 	});
 	$("a.link-delete").click(e => { 
-	$.get('entities/card/delete/' + $(e.target).parent().parents(".card").attr("id"),
+	$.get('/entities/card/delete/' + $(e.target).parent().parents(".card").attr("id"),
 			() => $(e.target).parent().parents(".card").remove() ); e.stopPropagation();});
 	/*]]>*/
 </script>
