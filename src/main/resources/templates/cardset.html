@@ -88,13 +88,15 @@
 	/*<![CDATA[*/
 	$("#card-add").click(e => $(this.attr("href")).addClass("active"));
 	$("a.link-edit").click(e => {
-		var id = $(this).parent(".card").attr("id");
-		$("#modal-create-card").find("#task").value($("div#" + id + " #task").text()).end()
-		.find("#answer").value($("div#" + id + " #answer").text()).end()
-		.addClass("active");
+		var id = $(e.target).parent().parents(".card").attr("id");
+		$("#modal-create-card #task").value($(e.target).parent().parents(".card").find("#task").text());
+		$("#modal-create-card #answer").value($(e.target).parent().parents(".card").find("#answer").text());
+		$("#modal-create-card").addClass("active");
 		e.stopPropagation();
 	});
-	$("a.link-delete").click(e => {$.get('entities/card/delete/' + $(this).parent(".card").attr("id"),() => $(".card #" + $(this).parent(".card").attr("id")).remove() ); e.stopPropagation()});
+	$("a.link-delete").click(e => { 
+	$.get('entities/card/delete/' + $(e.target).parent().parents(".card").attr("id"),
+			() => $(e.target).parent().parents(".card").remove() ); e.stopPropagation();});
 	/*]]>*/
 </script>
 </html>
