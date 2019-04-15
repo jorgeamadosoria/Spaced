@@ -62,6 +62,15 @@ public class SpacedController {
 		return this.delete(cardSetRepository, id);
 	}
 	
+	@GetMapping("/play/{id}")
+	public String play(Model model,@PathVariable Long id) {
+		model.addAttribute("cardset",this.get(cardSetRepository, id).getBody().get());
+		return "play";
+	}
+
+	
+
+	
 	
 	
 	private <T> String upsert(JpaRepository<T, Long> repository,Model model,@ModelAttribute T entity, String result) {
