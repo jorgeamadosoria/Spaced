@@ -12,9 +12,29 @@
 
 }
 
+.csize-play {
+	 min-height:100px;
+	 max-height:100px;
+	 min-width:50px;
+	 max-width:50px;
+	 display:inline-block;
+}
+
+.cheight-play {
+	 min-height:100px;
+	 max-height:100px;
+	 font-size: x-small;
+	 word-break: break-all;
+}
+
+
 .fixed-image {
 	min-height:200px;
 	max-height:200px
+}
+
+.card-container {
+	padding-bottom: 5px;
 }
 
 a.card-link {

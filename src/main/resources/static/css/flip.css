@@ -1,24 +1,37 @@
-.play-panel {
-  position: relative;
-  margin: 10px auto;
-  z-index: 1;
-  perspective: 1000;
+.scene {
+  height: 300px;
+  margin: 4px 0;
+  perspective: 600px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-#f1_card {
+
+.card-flip {
+  width: 100%;
+  height: 100%;
+  transition: transform 1s;
   transform-style: preserve-3d;
-  transition: all 1.0s linear;
+  cursor: pointer;
+  position: relative;
 }
-.play-panel:active #f1_card {
+
+.card-flip.is-flipped {
   transform: rotateY(180deg);
-  box-shadow: -5px 5px 5px #aaa;
 }
-.face {
+
+.card__face {
   position: absolute;
   width: 100%;
   height: 100%;
+  text-align: center;
+  font-weight: bold;
   backface-visibility: hidden;
 }
-.face.back {
+
+.card__face--front {
+}
+
+.card__face--back {
   transform: rotateY(180deg);
-  box-sizing: border-box;
 }

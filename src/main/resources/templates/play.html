@@ -19,27 +19,42 @@
 <body>
 	<header class="navbar">
 		<section class="navbar-section">
-			<a href="index.html" class="navbar-brand mr-2">Spaced</a>
+			<a href="/index" class="navbar-brand mr-2">Spaced</a>
 		</section>
 		<section class="navbar-section">
 			<a href="..." class="btn btn-link">Admin</a> <a href="..." class="btn btn-link">User</a>
 		</section>
 	</header>
-	<div th:each="card: ${cardset.cards}" th:id="${card.id}" class="card col-2 cheight">
-		<div class="card-header">
-			<div class="card-title" id="task" th:text="${card.task}"></div>
+	<div class="card-container">
+		<div th:each="card: ${cardset.cards}" th:id="${card.id}" class="card csize-play">
+			<div class="card-body cheight-play" id="task" th:text="${card.task}"></div>
 		</div>
-		<div class="card-body" id="answer" th:text="${card.answer}"></div>
 	</div>
 	<!-- multi-bars -->
-	<div class="bar bar-sm"></div>
-	<br />
+	<div class="bar bar-sm">
+		<div class="bar-item" role="progressbar" style="width: %;" aria-valuenow="" aria-valuemin="0" aria-valuemax="100"></div>
+	</div>
 	<div class="container">
-		<div class="bar bar-sm">
-			<div class="bar-item" role="progressbar" style="width: %;" aria-valuenow="" aria-valuemin="0" aria-valuemax="100"></div>
-		</div>
-		<div class="play-panel panel cheight-panel" data-card="">
-			<div id="f1_card" class="shadow column col-3 col-mx-auto center"></div>
+		<div class="columns">
+			<div class="column col-4"></div>
+			<div id="play" class="column col-4 scene scene--card-flip">
+				<div class="card-flip">
+					<div id="card-model-front" class="card card__face card__face--front">
+						<div class="card-body tile tile-centered">
+							<h1 id="task" class="text-center"></h1>
+						</div>
+						<div class="card-footer">
+							<i><sub>(flip to see answer)</sub></i>
+						</div>
+					</div>
+					<div id="card-model-back" class="card card__face card__face--back">
+						<div class="card-body tile tile-centered">
+							<h3 id="answer" class="text-center"></h3>
+						</div>
+						<div class="card-footer"></div>
+					</div>
+				</div>
+			</div>
 		</div>
 		<div class="button-panel panel">
 			<div class="columns button-panel">
@@ -87,27 +102,31 @@
 </body>
 <script>
 	/*<![CDATA[*/
-		function showPlayCard(cardset)  {
-	 var card = cardset.current;
-	 $("#f1_card").empty();
-	 if (card != null){
-	 $("#card-model-front").clone().attr("id",'card-front-' + card.id)
-	 .find("#task").text(card.task).end()
-	 .appendTo($("#f1_card"));
-	 $("#card-model-back ").clone().attr("id",'card-back-' + card.id)
-	 .find("#answer").text(card.answer).end()
-	 .appendTo($("#f1_card"));
-	 $(".bar-item").attr("style","width:"+cardset.cards.indexOf(cardset.current)/cardset.cards.length*100 + "%").attr("aria-valuenow",cardset.cards.indexOf(cardset.current)).attr("aria-valuemax",cardset.cards.length);
-	
-	 }
-	 else {
-	 $(".button-panel").addClass("d-hide");
-	 $("#card-model-finish").clone().attr("id","").appendTo($("#f1_card"));
-	 $(".bar-item").attr("style","width:100%").attr("aria-valuenow",cardset.cards.length).attr("aria-valuemax",cardset.cards.length);
-	
-	 }
-	
-	 }
+
+	$('.card-flip').click(function(e) {
+		$('.card-flip').toggleClass('is-flipped');
+	});
+
+	function showPlayCard(index) {
+		var card = $(".card-container").find(".card").get(index);
+		//alert($(card).text());
+		//	$("#play").empty();
+		if (card != null) {
+			$("#card-model-front").find("#task").text(
+					$(card).find("#task").text());
+			$("#card-model-back ").find("#answer").text(
+					$(card).find("#answer").text());
+			//	 $(".bar-item").attr("style","width:"+cardset.cards.indexOf(cardset.current)/cardset.cards.length*100 + "%").attr("aria-valuenow",cardset.cards.indexOf(cardset.current)).attr("aria-valuemax",cardset.cards.length);
+		} else {
+			$(".button-panel").addClass("d-hide");
+			$("#card-model-finish").removeClass("d-hide");
+			$("#play").addClass("d-hide");
+			;
+			//	 $(".bar-item").attr("style","width:100%").attr("aria-valuenow",cardset.cards.length).attr("aria-valuemax",cardset.cards.length);
+
+		}
+
+	}
 	/*
 	 function linkCards(cardset){
 	 if (_.isEmpty(cardset.cards))
@@ -127,13 +146,10 @@
 	
 	 $("#right-btn").on("click",function (e)  {send(cardset,true,showPlayCard)});
 	 $("#wrong-btn").on("click",function (e)  {send(cardset,false,showPlayCard)});
-
-	 showPlayCard(cardset);
-	
 	 */
 
+	showPlayCard(1);
 	//================================================
-
 	/*]]>*/
 </script>
 </html>
