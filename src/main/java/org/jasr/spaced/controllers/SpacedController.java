@@ -1,5 +1,6 @@
 package org.jasr.spaced.controllers;
 
+import java.util.Date;
 import java.util.Optional;
 
 import org.jasr.spaced.entities.Card;
@@ -68,8 +69,17 @@ public class SpacedController {
 		return "play";
 	}
 
-	
+	@GetMapping("/play/right/{id}")
+	public ResponseEntity<Void> right(@PathVariable Long id) {
+		cardRepository.updateCardDate(new Date(), new Date(), id);
+		return new ResponseEntity<Void>(HttpStatus.OK);
+	}	
 
+	@GetMapping("/play/wrong/{id}")
+	public ResponseEntity<Void> wrong(@PathVariable Long id) {
+		cardRepository.updateCardDate(null, new Date(), id);
+		return new ResponseEntity<Void>(HttpStatus.OK);
+	}	
 	
 	
 	

@@ -26,13 +26,12 @@
 		</section>
 	</header>
 	<div class="card-container">
-		<div th:each="card: ${cardset.cards}" th:id="${card.id}" class="card csize-play">
-			<div class="card-body cheight-play" id="task" th:text="${card.task}"></div>
-		</div>
+		<div class="card-data" th:each="card: ${cardset.cards}" 
+		th:attr="data-id=${card.id},data-task=${card.task},data-answer=${card.answer}"></div>
 	</div>
 	<!-- multi-bars -->
 	<div class="bar bar-sm">
-		<div class="bar-item" role="progressbar" style="width: %;" aria-valuenow="" aria-valuemin="0" aria-valuemax="100"></div>
+		<div class="bar-item" role="progressbar" style="width: 0%;"></div>
 	</div>
 	<div class="container">
 		<div class="columns">
@@ -108,14 +107,15 @@
 	});
 
 	function showPlayCard(index) {
-		var card = $(".card-container").find(".card").get(index);
-		//alert($(card).text());
+		$(".card-container").attr("data-current",index);
+		var card = $(".card-container").find(".card-data").get(index);
+		alert($(card).attr("data-task"));
 		//	$("#play").empty();
 		if (card != null) {
 			$("#card-model-front").find("#task").text(
-					$(card).find("#task").text());
+					$(card).attr("data-task"));
 			$("#card-model-back ").find("#answer").text(
-					$(card).find("#answer").text());
+					$(card).attr("data-answer"));
 			//	 $(".bar-item").attr("style","width:"+cardset.cards.indexOf(cardset.current)/cardset.cards.length*100 + "%").attr("aria-valuenow",cardset.cards.indexOf(cardset.current)).attr("aria-valuemax",cardset.cards.length);
 		} else {
 			$(".button-panel").addClass("d-hide");
@@ -128,25 +128,22 @@
 
 	}
 	/*
-	 function linkCards(cardset){
-	 if (_.isEmpty(cardset.cards))
-	 cardset.current = null;
-	 else {
-	 for (var i = 0;i < cardset.cards.length-1;i++)
-	 cardset.cards[i].next = cardset.cards[i+1];
-	
-	 cardset.current = cardset.cards[0];
-	 cardset.cards[cardset.cards.length-1].next = null;
-	 }
-	 }
 	 //data load and massaging
 	 //cardsetId
 	 var cardset = loadCardset(1);
 	 linkCards(cardset);
 	
+	 */
+	 
+	 function send(cardset,right,showPlayCard){
+		 $.get("").done(
+				 function())
+			cardset.current = cardset.current.next;
+			showPlayCard(cardset);
+		}
+
 	 $("#right-btn").on("click",function (e)  {send(cardset,true,showPlayCard)});
 	 $("#wrong-btn").on("click",function (e)  {send(cardset,false,showPlayCard)});
-	 */
 
 	showPlayCard(1);
 	//================================================

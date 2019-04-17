@@ -15,6 +15,12 @@ public class Card extends BaseEntity {
 	private CardSet cardset;
 
 	
+	public int getDeck() {
+	/*	if (success == 0)
+			return */
+		return 0;
+	}
+	
 
 	public Date getPlay() {
 		return play;
