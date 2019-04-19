@@ -69,20 +69,18 @@ public class SpacedController {
 		return "play";
 	}
 
-	@GetMapping("/play/right/{id}")
+	@PostMapping("/play/right/{id}")
 	public ResponseEntity<Void> right(@PathVariable Long id) {
 		cardRepository.updateCardDate(new Date(), new Date(), id);
 		return new ResponseEntity<Void>(HttpStatus.OK);
-	}	
-
-	@GetMapping("/play/wrong/{id}")
+	}
+	
+	@PostMapping("/play/wrong/{id}")
 	public ResponseEntity<Void> wrong(@PathVariable Long id) {
-		cardRepository.updateCardDate(null, new Date(), id);
+		cardRepository.updateCardDate(new Date(), id);
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}	
-	
-	
-	
+
 	private <T> String upsert(JpaRepository<T, Long> repository,Model model,@ModelAttribute T entity, String result) {
 		repository.saveAndFlush(entity);
 		return result;
