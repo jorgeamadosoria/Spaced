@@ -2,6 +2,7 @@ package org.jasr.spaced.controllers;
 
 import java.util.Date;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.jasr.spaced.entities.Card;
 import org.jasr.spaced.entities.CardSet;
@@ -59,13 +60,21 @@ public class SpacedController {
 	}
 	
 	@GetMapping("/entities/cardset/delete/{id}")
-	public ResponseEntity<Void> deleteCardSet(@PathVariable Long id) {
-		return this.delete(cardSetRepository, id);
+	public String deleteCardSet(@PathVariable Long id) {
+		this.delete(cardSetRepository, id);
+		return "redirect:/index";
+	}
+	
+	private CardSet filterCards(CardSet cardset) {
+		
+		//cardset.setCards(cardset.getCards().stream().filter(e -> e.getSuccess() ).collect(Collectors.toList()));
+		
+		return cardset;
 	}
 	
 	@GetMapping("/play/{id}")
 	public String play(Model model,@PathVariable Long id) {
-		model.addAttribute("cardset",this.get(cardSetRepository, id).getBody().get());
+		model.addAttribute("cardset",filterCards(this.get(cardSetRepository, id).getBody().get()));
 		return "play";
 	}
 

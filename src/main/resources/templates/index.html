@@ -27,26 +27,29 @@
 	<div class="docs-content">
 		<div class="container">
 			<div class="columns">
-				<div id="create-cardset" class="card cheight">
-					<div class="card-body">
-						<a id="cardset-add" href="#modal-create-cardset"><i class="fas fa-plus-circle"></i></a>
+				<div class="column col-3">
+					<div id="create-cardset" class="card cheight">
+						<div class="card-body tile tile-centered horz-center">
+							<a id="cardset-add" href="#modal-create-cardset"><i class="fas fa-8x fa-plus-circle"></i></a>
+						</div>
 					</div>
 				</div>
 				<div th:each="cardset : ${cardsets}" class="column col-3">
-					<div id="cardset-${cardset.id}" class="card cheight">
+					<div th:id="'cardset-' + ${cardset.id}" class="card cheight">
 						<div class="card-image">
-							<img class="fixed-image img-responsive" src="${cardset.image}">
+							<img class="fixed-image img-responsive" th:src="${cardset.image}">
 						</div>
 						<div class="card-header">
 							<div class="card-title h5" th:text="${cardset.name}"></div>
 						</div>
 						<div class="card-body" th:text="${cardset.description}"></div>
 						<div class="card-footer">
-						<div class="text-center">
-							<a th:href="@{'entities/cardset/delete/' + ${cardset.id}}" title="remove set" class="btn btn-sm btn-error hvr-grow"><i class="fas fa-trash-alt"></i></a>&nbsp;&nbsp;
-							<a th:href="@{'cardset/' + ${cardset.id}}" title="edit set" class="btn btn-sm btn-primary hvr-grow"><i class="fas fa-edit"></i></a> &nbsp;&nbsp;
-							<a th:href="@{'play/' + ${cardset.id}}" title="daily play" class="btn btn-sm btn-success hvr-grow"><i class="fas fa-play"></i></a>
-						</div>
+							<div class="text-center">
+								<a th:href="@{'entities/cardset/delete/' + ${cardset.id}}" title="remove set" class="btn btn-sm btn-error hvr-grow"><i class="fas fa-trash-alt"></i></a>&nbsp;&nbsp; 
+								<a id="cardset-edit" th:attr="data-id=${cardset.id}" href="#modal-create-cardset" title="edit set" class="btn btn-sm btn-primary hvr-grow"><i th:attr="data-id=${cardset.id}" href="#modal-create-cardset" class="fas fa-edit"></i></a> &nbsp;&nbsp; 
+								<a th:href="@{'cardset/' + ${cardset.id}}" title="edit cards" class="btn btn-sm btn-primary hvr-grow"><i class="fas fa-copy"></i></a> &nbsp;&nbsp; 
+									<a th:href="@{'play/' + ${cardset.id}}" title="daily play" class="btn btn-sm btn-success hvr-grow"><i class="fas fa-play"></i></a>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -57,9 +60,10 @@
 		<a href="#close" class="modal-overlay" aria-label="Close"></a>
 		<div class="modal-container">
 			<div class="modal-header">
-				<a href="#close" class="btn btn-clear float-right" aria-label="Close"></a>
+				<a id="modal-close" href="#close" class="btn btn-clear float-right" aria-label="Close"></a>
 				<div class="modal-title h5">New Cardset</div>
 				<form method="post" action="/entities/cardset">
+					<input type="hidden" id="id" name="id">
 					<div class="form-group">
 						<label class="form-label" for="input-example-1">Name</label>
 						<input class="form-input" type="text" id="name" name="name" placeholder="Name">
@@ -90,7 +94,16 @@
 </body>
 <script>
 	/*<![CDATA[*/
-	$("#cardset-add").click(e => $(this.attr("href")).addClass("active"));
+	$("#modal-close").click(e=> $("#modal-create-cardset").removeClass("active"));
+	$("#cardset-add").click(e => $(e.target).attr("href").addClass("active"));
+	$("#cardset-edit").click(e => {
+		var cardsetId = "#cardset-" + $(e.target).attr("data-id");
+		$($(e.target).attr("href")).find("#id").val($(e.target).attr("data-id"));
+		$($(e.target).attr("href")).find("#name").val($(cardsetId).find(".card-title").text());
+		$($(e.target).attr("href")).find("#image").val($(cardsetId).find(".fixed-image").attr("src"));
+		$($(e.target).attr("href")).find("#description").val($(cardsetId).find(".card-body").text());
+		$($(e.target).attr("href")).addClass("active");
+	});
 	/*]]>*/
 </script>
 </html>

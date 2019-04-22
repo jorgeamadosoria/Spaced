@@ -25,7 +25,7 @@
 			<a href="..." class="btn btn-link">Admin</a> <a href="..." class="btn btn-link">User</a>
 		</section>
 	</header>
-	<div class="card-container">
+	<div class="card-container" th:attr="data-size=${#lists.size(cardset.cards)}">
 		<div class="card-data" th:each="card: ${cardset.cards}" th:attr="data-id=${card.id},data-task=${card.task},data-answer=${card.answer}"></div>
 	</div>
 	<!-- multi-bars -->
@@ -51,13 +51,13 @@
 						</div>
 						<div class="card-footer"></div>
 					</div>
-					<div id="card-model-finish" class="d-hide card cheight">
-						<div class="card-body tile tile-centered col-mx-auto">
-							<i class="fa fa-8x text-success fa-check-circle"></i>
-						</div>
-						<div class="card-footer">
-							<i><sub>(You have studied all cards for today)</sub></i>
-						</div>
+				</div>
+				<div id="card-model-finish" class="d-hide card card__face">
+					<div class="card-body tile tile-centered col-mx-auto">
+						<a href="/index"><i class="fa fa-8x text-success fa-check-circle"></i></a>
+					</div>
+					<div class="card-footer">
+						<i><sub>(You have studied all cards for today)</sub></i>
 					</div>
 				</div>
 			</div>
@@ -86,30 +86,24 @@
 
 	function showPlayCard(index) {
 		var card = $(".card-container").find(".card-data").get(index);
-		//	$("#play").empty();
 		if (card != null) {
 			$("#card-model-front").find("#task")
 					.text($(card).attr("data-task"));
 			$("#card-model-back ").find("#answer").text(
 					$(card).attr("data-answer"));
-			//	 $(".bar-item").attr("style","width:"+cardset.cards.indexOf(cardset.current)/cardset.cards.length*100 + "%").attr("aria-valuenow",cardset.cards.indexOf(cardset.current)).attr("aria-valuemax",cardset.cards.length);
 		} else {
 			$(".button-panel").addClass("d-hide");
-			$("#card-model-finish").removeClass("d-hide");
-			$("#play").addClass("d-hide");
-			;
-			//	 $(".bar-item").attr("style","width:100%").attr("aria-valuenow",cardset.cards.length).attr("aria-valuemax",cardset.cards.length);
+			$("#card-model-front,#card-model-back,#card-model-finish").toggleClass("d-hide");
 
 		}
 
 	}
-	/*
-	 //data load and massaging
-	 //cardsetId
-	 var cardset = loadCardset(1);
-	 linkCards(cardset);
-	
-	 */
+
+function barProgress(){
+	var size = $(".card-container").attr("data-size");
+	var cardsLeft = $(".card-container .card-data").length;
+	$(".bar-item").attr("style","width:"+(size - cardsLeft)/size*100 + "%");
+}
 
 	$("#right-btn").on("click", function(e) {
 		var card = $(".card-container").find(".card-data").get(0);
@@ -120,14 +114,18 @@
 		if (id) {
 			$.post("/play/right/" + id).done(function() {
 				$(card).remove();
+				barProgress();
 				showPlayCard(0);
 			});
 		} else {
 			$(card).remove();
+			barProgress();
 			showPlayCard(0);
 		}
+		
 
 	});
+	 
 
 	$("#wrong-btn").on("click", function(e) {
 		var card = $(".card-container").find(".card-data").get(0);

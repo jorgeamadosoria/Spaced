@@ -1,6 +1,11 @@
 .cheight {
-	min-height: 400px;
+	min-height: 300px;
+	max-height: 300px;
 
+}
+
+.horz-center {
+    justify-content: center;
 }
 
 .valign {
@@ -8,7 +13,8 @@
 }
 
 .cheight-panel {
-	min-height: 420px;
+	min-height: 320px;
+	max-height: 320px;
 
 }
 

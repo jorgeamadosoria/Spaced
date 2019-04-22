@@ -28,24 +28,36 @@
 		<ul id="deck-tabs" class="tab tab-block">
 		</ul>
 		<div class="container">
-			<p th:text="${cardset.name}"></p>
-			<p th:text="${cardset.description}"></p>
-			<p th:text="${cardset.image}"></p>
-			<div class="columns">
-				<div class="card col-2 cheight">
-					<div class="card-body" id="answer">
-						<a id="card-add" href="#modal-create-card"><i class="fas fa-plus-circle"></i></a>
+			<div class="tile">
+				<div class="tile-icon">
+					<div class="example-tile-icon">
+						<figure class="avatar avatar-lg">
+							<img th:src="${cardset.image}" />
+						</figure>
 					</div>
 				</div>
-				<div th:each="card: ${cardset.cards}" th:id="${card.id}" class="card col-2 cheight">
-					<div class="card-header">
-						<div class="card-title" id="task" th:text="${card.task}"></div>
-						
+				<div class="tile-content">
+					<p class="tile-title" th:text="${cardset.name}"></p>
+					<p class="tile-subtitle" th:text="${cardset.description}"></p>
+				</div>
+			</div>
+			<div class="columns">
+				<div class="column col-2">
+					<div class="card cheight">
+						<div class="card-body tile tile-centered" id="answer">
+							<a id="card-add" href="#modal-create-card"><i class="fas fa-6x fa-plus-circle"></i></a>
+						</div>
 					</div>
-					<div class="card-body" id="answer" th:text="${card.answer}"></div>
-					<div class="card-footer">
-						<a href="#modal-create-card" title="edit set" class="link-edit btn btn-sm btn-primary hvr-grow"><i class="fas fa-edit"></i></a>&nbsp;&nbsp;
-						<a href="#" title="delete set" class="link-delete btn btn-sm btn-error hvr-grow"><i class="fas fa-trash-alt"></i></a>&nbsp;&nbsp;
+				</div>
+				<div th:each="card: ${cardset.cards}" class="column col-2">
+					<div th:id="${card.id}" class="card cheight">
+						<div class="card-header">
+							<div class="card-title" id="task" th:text="${card.task}"></div>
+						</div>
+						<div class="card-body" id="answer" th:text="${card.answer}"></div>
+						<div class="card-footer">
+							<a href="#modal-create-card" title="edit set" class="link-edit btn btn-sm btn-primary hvr-grow"><i class="fas fa-edit"></i></a>&nbsp;&nbsp; <a href="#" title="delete set" class="link-delete btn btn-sm btn-error hvr-grow"><i class="fas fa-trash-alt"></i></a>&nbsp;&nbsp;
+						</div>
 					</div>
 				</div>
 			</div>
@@ -86,7 +98,7 @@
 </body>
 <script>
 	/*<![CDATA[*/
-	$("#card-add").click(e => $(this.attr("href")).addClass("active"));
+	$("#card-add").click(e => $(e.target).addClass("active"));
 	$("a.link-edit").click(e => {
 		var card = $(e.target).parent().parents(".card");
 		var id = card.attr("id");

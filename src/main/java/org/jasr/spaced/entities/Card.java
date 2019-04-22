@@ -1,26 +1,33 @@
 package org.jasr.spaced.entities;
 
 import java.util.Date;
+import java.util.Objects;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import org.hibernate.annotations.ColumnDefault;
 
 @Entity
 public class Card extends BaseEntity {
 	private String task;
 	private String answer;
+	@Temporal(TemporalType.DATE)
 	private Date play;
+	@Temporal(TemporalType.DATE)
 	private Date success;
+	@ColumnDefault("0")
+	private int recurrence;
 	@ManyToOne
 	private CardSet cardset;
 
-	
-	public int getDeck() {
-	/*	if (success == 0)
-			return */
-		return 0;
+	private static int[] RECURRENCES = new int[] { 0, 1, 2, 7, 7, 15, 30, 90, -1 };
+
+	public void changeRecurrence() {
+		recurrence = Objects.equals(this.play, this.success) ? Math.min(recurrence + 1, RECURRENCES.length - 1) : RECURRENCES[1];
 	}
-	
 
 	public Date getPlay() {
 		return play;
