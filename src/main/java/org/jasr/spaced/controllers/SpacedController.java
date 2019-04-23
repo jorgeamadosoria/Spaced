@@ -1,5 +1,7 @@
 package org.jasr.spaced.controllers;
 
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -64,17 +66,19 @@ public class SpacedController {
 		this.delete(cardSetRepository, id);
 		return "redirect:/index";
 	}
-	
+	/*
 	private CardSet filterCards(CardSet cardset) {
-		
-		//cardset.setCards(cardset.getCards().stream().filter(e -> e.getSuccess() ).collect(Collectors.toList()));
+		Instant now = Instant.now();
+		cardset.setCards(cardset.getCards().stream().filter(
+				e -> e.getRecurrenceDays() >= ChronoUnit.DAYS.between(e.getPlay().toInstant(), now)
+				).collect(Collectors.toList()));
 		
 		return cardset;
 	}
-	
+	*/
 	@GetMapping("/play/{id}")
 	public String play(Model model,@PathVariable Long id) {
-		model.addAttribute("cardset",filterCards(this.get(cardSetRepository, id).getBody().get()));
+		model.addAttribute("cards",cardRepository.findTop5ByCardsetIdAndRecurrenceGreaterThanAndPlayIsNotOrderByPlayAsc(id,-1, new Date()));
 		return "play";
 	}
 

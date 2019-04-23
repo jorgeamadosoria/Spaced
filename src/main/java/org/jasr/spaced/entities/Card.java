@@ -29,6 +29,22 @@ public class Card extends BaseEntity {
 		recurrence = Objects.equals(this.play, this.success) ? Math.min(recurrence + 1, RECURRENCES.length - 1) : RECURRENCES[1];
 	}
 
+	public int getRecurrenceDays() {
+		return RECURRENCES[this.recurrence];
+	}
+	
+	public int getRecurrence() {
+		return recurrence;
+	}
+
+
+
+	public void setRecurrence(int recurrence) {
+		this.recurrence = recurrence;
+	}
+
+
+
 	public Date getPlay() {
 		return play;
 	}

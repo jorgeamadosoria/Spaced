@@ -25,8 +25,8 @@
 			<a href="..." class="btn btn-link">Admin</a> <a href="..." class="btn btn-link">User</a>
 		</section>
 	</header>
-	<div class="card-container" th:attr="data-size=${#lists.size(cardset.cards)}">
-		<div class="card-data" th:each="card: ${cardset.cards}" th:attr="data-id=${card.id},data-task=${card.task},data-answer=${card.answer}"></div>
+	<div class="card-container" th:attr="data-size=${#lists.size(cards)}">
+		<div class="card-data" th:each="card: ${cards}" th:attr="data-id=${card.id},data-task=${card.task},data-answer=${card.answer}"></div>
 	</div>
 	<!-- multi-bars -->
 	<div class="bar bar-sm">

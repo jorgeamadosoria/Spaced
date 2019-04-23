@@ -1,6 +1,7 @@
 package org.jasr.spaced.repositories;
 
 import java.util.Date;
+import java.util.List;
 
 import org.jasr.spaced.entities.Card;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -18,4 +19,6 @@ public interface CardRepository extends JpaRepository<Card, Long> {
 	@Modifying
 	@Query("update Card c set c.play = :play where c.id = :id")
 	int updateCardDate(@Param("play") Date play, @Param("id") Long id);
+	
+	public List<Card> findTop5ByCardsetIdAndRecurrenceGreaterThanAndPlayIsNotOrderByPlayAsc(Long id,int recurrence, Date now);
 }

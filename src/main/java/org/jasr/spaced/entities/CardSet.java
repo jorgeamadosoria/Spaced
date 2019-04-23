@@ -1,13 +1,9 @@
 package org.jasr.spaced.entities;
 
 import java.util.List;
-import java.util.Set;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.Cascade;
@@ -18,7 +14,6 @@ public class CardSet extends BaseEntity {
 
 	private String name;
 	private String image;
-	private int newCards;
 	@OneToMany
 	@JoinColumn(name = "cardset_id")
 	@Cascade({CascadeType.ALL})
@@ -30,14 +25,6 @@ public class CardSet extends BaseEntity {
 
 	public CardSet(Long id) {
 		super(id);
-	}
-
-	public int getNewCards() {
-		return newCards;
-	}
-
-	public void setNewCards(int newCards) {
-		this.newCards = newCards;
 	}
 
 	public List<Card> getCards() {

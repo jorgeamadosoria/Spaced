@@ -38,7 +38,6 @@
 				</div>
 				<div class="tile-content">
 					<p class="tile-title" th:text="${cardset.name}"></p>
-					<p class="tile-subtitle" th:text="${cardset.description}"></p>
 				</div>
 			</div>
 			<div class="columns">
@@ -48,6 +47,7 @@
 							<a id="card-add" href="#modal-create-card"><i class="fas fa-6x fa-plus-circle"></i></a>
 						</div>
 					</div>
+					<br>
 				</div>
 				<div th:each="card: ${cardset.cards}" class="column col-2">
 					<div th:id="${card.id}" class="card cheight">
@@ -59,6 +59,7 @@
 							<a href="#modal-create-card" title="edit set" class="link-edit btn btn-sm btn-primary hvr-grow"><i class="fas fa-edit"></i></a>&nbsp;&nbsp; <a href="#" title="delete set" class="link-delete btn btn-sm btn-error hvr-grow"><i class="fas fa-trash-alt"></i></a>&nbsp;&nbsp;
 						</div>
 					</div>
+					<br>
 				</div>
 			</div>
 		</div>
