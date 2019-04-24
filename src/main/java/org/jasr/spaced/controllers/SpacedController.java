@@ -1,10 +1,9 @@
 package org.jasr.spaced.controllers;
 
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.jasr.spaced.entities.Card;
 import org.jasr.spaced.entities.CardSet;
@@ -24,61 +23,60 @@ import org.springframework.web.bind.annotation.PostMapping;
 @Controller
 public class SpacedController {
 	@Autowired
-    private CardSetRepository cardSetRepository;
+	private CardSetRepository cardSetRepository;
 	@Autowired
 	private CardRepository cardRepository;
 
-//	@Autowired
-//	private PasswordEncoder passwordEncoder;
-//	@Autowired
-//	private UserService usersService;
-	
-    @GetMapping(value= {"/","/index"})
-    public String index(Model model) {
-    	model.addAttribute("cardsets", cardSetRepository.findAll());
-        return "index";
-    }
-  
-    @GetMapping("/cardset/{id}")
+	// @Autowired
+	// private PasswordEncoder passwordEncoder;
+	// @Autowired
+	// private UserService usersService;
+
+	@GetMapping(value = { "/", "/index" })
+	public String index(Model model) {
+		model.addAttribute("cardsets", cardSetRepository.findAll());
+		return "index";
+	}
+
+	@GetMapping("/cardset/{id}")
 	public String cardset(Model model, @PathVariable Long id) {
-    	model.addAttribute("cardset",this.get(cardSetRepository, id).getBody().get());
+		model.addAttribute("cardset", this.get(cardSetRepository, id).getBody().get());
 		return "cardset";
 	}
-    
+
 	@PostMapping("/entities/cardset")
-	public String upsertCardSet(Model model,@ModelAttribute CardSet entity) {
-		return this.upsert(cardSetRepository, model, entity,"redirect:/index");
+	public String upsertCardSet(Model model, @ModelAttribute CardSet entity) {
+		return this.upsert(cardSetRepository, model, entity, "redirect:/index");
 	}
 
 	@PostMapping("/entities/card")
-	public String upsertCard(Model model, @ModelAttribute(name="cardset-id") Long id, @ModelAttribute Card entity) {
+	public String upsertCard(Model model, @ModelAttribute(name = "cardset-id") Long id, @ModelAttribute Card entity) {
 		entity.setCardset(new CardSet(id));
-		return this.upsert(cardRepository, model, entity,"redirect:/cardset/" + id);
+		return this.upsert(cardRepository, model, entity, "redirect:/cardset/" + id);
 	}
-	
+
 	@GetMapping("/entities/card/delete/{id}")
 	public ResponseEntity<Void> deleteCard(@PathVariable Long id) {
 		return this.delete(cardRepository, id);
 	}
-	
+
 	@GetMapping("/entities/cardset/delete/{id}")
 	public String deleteCardSet(@PathVariable Long id) {
 		this.delete(cardSetRepository, id);
 		return "redirect:/index";
 	}
+
 	/*
-	private CardSet filterCards(CardSet cardset) {
-		Instant now = Instant.now();
-		cardset.setCards(cardset.getCards().stream().filter(
-				e -> e.getRecurrenceDays() >= ChronoUnit.DAYS.between(e.getPlay().toInstant(), now)
-				).collect(Collectors.toList()));
-		
-		return cardset;
-	}
-	*/
+	 * private CardSet filterCards(CardSet cardset) { Instant now = Instant.now();
+	 * cardset.setCards(cardset.getCards().stream().filter( e ->
+	 * e.getRecurrenceDays() >= ChronoUnit.DAYS.between(e.getPlay().toInstant(),
+	 * now) ).collect(Collectors.toList()));
+	 * 
+	 * return cardset; }
+	 */
 	@GetMapping("/play/{id}")
-	public String play(Model model,@PathVariable Long id) {
-		model.addAttribute("cards",cardRepository.findTop5ByCardsetIdAndRecurrenceGreaterThanAndPlayIsNotOrderByPlayAsc(id,-1, new Date()));
+	public String play(Model model, @PathVariable Long id) {
+		model.addAttribute("cards", Stream.concat(cardRepository.findTop5ByCardsetIdAndPlayIsNull(id).stream(), cardRepository.findTop5ByCardsetIdAndRecurrenceGreaterThanAndPlayIsNotAndPlayIsNotNullOrderByPlayAsc(id, -1, new Date()).stream()).collect(Collectors.toList()));
 		return "play";
 	}
 
@@ -87,61 +85,48 @@ public class SpacedController {
 		cardRepository.updateCardDate(new Date(), new Date(), id);
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
-	
+
 	@PostMapping("/play/wrong/{id}")
 	public ResponseEntity<Void> wrong(@PathVariable Long id) {
 		cardRepository.updateCardDate(new Date(), id);
 		return new ResponseEntity<Void>(HttpStatus.OK);
-	}	
+	}
 
-	private <T> String upsert(JpaRepository<T, Long> repository,Model model,@ModelAttribute T entity, String result) {
+	private <T> String upsert(JpaRepository<T, Long> repository, Model model, @ModelAttribute T entity, String result) {
 		repository.saveAndFlush(entity);
 		return result;
 	}
 
-	private <T> ResponseEntity<Void> delete(JpaRepository<T, Long> repository,@PathVariable Long id) {
+	private <T> ResponseEntity<Void> delete(JpaRepository<T, Long> repository, @PathVariable Long id) {
 		repository.deleteById(id);
 		return new ResponseEntity<>(null, HttpStatus.OK);
-	}	
-//-------------------------------------------------------------------------------------------------------------
-	
-	
-//
-//	@PostMapping("/password")
-//	public String changePassword(Model model,@RequestParam String cpassword, @RequestParam String npassword, @RequestParam String rpassword) {
-//
-//		if (!StringUtils.isEmpty(cpassword) && !StringUtils.isEmpty(npassword) && npassword.equals(rpassword) && passwordEncoder.matches(cpassword, usersService.loadUserByUsername("admin").getPassword()))
-//			usersService.changePassword(cpassword, npassword);
-//		return "redirect:/admin/index";
-//	}
+	}
+	// -------------------------------------------------------------------------------------------------------------
 
-	
+	//
+	// @PostMapping("/password")
+	// public String changePassword(Model model,@RequestParam String cpassword,
+	// @RequestParam String npassword, @RequestParam String rpassword) {
+	//
+	// if (!StringUtils.isEmpty(cpassword) && !StringUtils.isEmpty(npassword) &&
+	// npassword.equals(rpassword) && passwordEncoder.matches(cpassword,
+	// usersService.loadUserByUsername("admin").getPassword()))
+	// usersService.changePassword(cpassword, npassword);
+	// return "redirect:/admin/index";
+	// }
 
 	@GetMapping("/card/{id}")
 	public ResponseEntity<Optional<Card>> card(@PathVariable Long id) {
 		return this.get(cardRepository, id);
 	}
 
-	
+	// today set for a cardset
 
-	
-	
-	
+	// card ok
+	// card wrong
 
-	
-
-    
-    
-    
-    //today set for a cardset
-    
-    //card ok
-    //card wrong
-
-    
-	private <T> ResponseEntity<Optional<T>> get(JpaRepository<T, Long> repository,@PathVariable Long id) {
+	private <T> ResponseEntity<Optional<T>> get(JpaRepository<T, Long> repository, @PathVariable Long id) {
 		return new ResponseEntity<>(repository.findById(id), HttpStatus.OK);
 	}
-
 
 }
