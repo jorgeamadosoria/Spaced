@@ -21,29 +21,29 @@
 			<a href="/index" class="navbar-brand mr-2">Spaced</a>
 		</section>
 		<section class="navbar-section">
-			<a href="..." class="btn btn-link">Admin</a> <a href="..." class="btn btn-link">User</a>
+			<a href="..." class="btn btn-link"><i class="fa fa-info-circle"></i></a> <a href="..." class="btn btn-link"><i class="fa fa-sign-out-alt"></i></a>
 		</section>
 	</header>
 	<div class="docs-content">
-		<ul id="deck-tabs" class="tab tab-block">
-		</ul>
-		<div class="container">
-			<div class="tile">
-				<div class="tile-icon">
-					<div class="example-tile-icon">
-						<figure class="avatar avatar-lg">
-							<img th:src="${cardset.image}" />
-						</figure>
-					</div>
-				</div>
-				<div class="tile-content">
-					<p class="tile-title" th:text="${cardset.name}"></p>
+		<div class="divider text-center" data-content="Cardset"></div>
+		<div class="tile">
+			<div class="tile-icon">
+				<div class="example-tile-icon">
+					<figure class="avatar avatar-lg">
+						<img th:src="${cardset.image}" />
+					</figure>
 				</div>
 			</div>
+			<div class="tile-content">
+				<p class="tile-title" th:text="${cardset.name}"></p>
+			</div>
+		</div>
+		<div class="divider text-center" data-content="Cards"></div>
+		<div class="container ">
 			<div class="columns">
 				<div class="column col-2">
 					<div class="card cheight">
-						<div class="card-body tile tile-centered" id="answer">
+						<div class="card-body tile tile-centered horz-center" id="answer">
 							<a id="card-add" href="#modal-create-card"><i class="fas fa-6x fa-plus-circle"></i></a>
 						</div>
 					</div>

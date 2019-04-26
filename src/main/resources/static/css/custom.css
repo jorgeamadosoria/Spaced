@@ -4,6 +4,10 @@
 
 }
 
+textarea {
+	resize:none;
+}
+
 .horz-center {
     justify-content: center;
 }

@@ -22,7 +22,7 @@
 			<a href="/index" class="navbar-brand mr-2">Spaced</a>
 		</section>
 		<section class="navbar-section">
-			<a href="..." class="btn btn-link">Admin</a> <a href="..." class="btn btn-link">User</a>
+			<a href="..." class="btn btn-link"><i class="fa fa-info-circle"></i></a> <a href="..." class="btn btn-link"><i class="fa fa-sign-out-alt"></i></a>
 		</section>
 	</header>
 	<div class="card-container" th:attr="data-size=${#lists.size(cards)}">
@@ -62,7 +62,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="button-panel panel">
+		<div class="container">
 			<div class="columns button-panel">
 				<div class="column col-6 text-center">
 					<button id="right-btn" href="" class="btn btn-success">Right</button>
@@ -72,8 +72,12 @@
 				</div>
 			</div>
 		</div>
-		<div class="work-panel panel">
-			<div class="shadow column col-3 col-mx-auto center"></div>
+		<div class="container">
+			<div class="columns work-panel">
+				<div class="column col-12 col-mx-auto text-center">
+					<textarea cols="100" rows="10" placeholder="Workarea"></textarea>
+				</div>
+			</div>
 		</div>
 	</div>
 </body>
@@ -92,18 +96,22 @@
 			$("#card-model-back ").find("#answer").text(
 					$(card).attr("data-answer"));
 		} else {
-			$(".button-panel").addClass("d-hide");
-			$("#card-model-front,#card-model-back,#card-model-finish").toggleClass("d-hide");
+			$("textarea").val('');
+			$(".button-panel,.work-panel").addClass("d-hide");
+			$(
+					"#card-model-front,#card-model-back,#card-model-finish")
+					.toggleClass("d-hide");
 
 		}
 
 	}
 
-function barProgress(){
-	var size = $(".card-container").attr("data-size");
-	var cardsLeft = $(".card-container .card-data").length;
-	$(".bar-item").attr("style","width:"+(size - cardsLeft)/size*100 + "%");
-}
+	function barProgress() {
+		var size = $(".card-container").attr("data-size");
+		var cardsLeft = $(".card-container .card-data").length;
+		$(".bar-item").attr("style",
+				"width:" + (size - cardsLeft) / size * 100 + "%");
+	}
 
 	$("#right-btn").on("click", function(e) {
 		var card = $(".card-container").find(".card-data").get(0);
@@ -113,6 +121,7 @@ function barProgress(){
 		//only submit the first time you get the card right
 		if (id) {
 			$.post("/play/right/" + id).done(function() {
+				$("textarea").val('');
 				$(card).remove();
 				barProgress();
 				showPlayCard(0);
@@ -122,10 +131,8 @@ function barProgress(){
 			barProgress();
 			showPlayCard(0);
 		}
-		
 
 	});
-	 
 
 	$("#wrong-btn").on("click", function(e) {
 		var card = $(".card-container").find(".card-data").get(0);
@@ -134,7 +141,7 @@ function barProgress(){
 		if (id) {
 			$.post("/play/wrong/" + id).done(function() {
 				$(card).removeAttr("data-id");
-
+				$("textarea").val('');
 				$(card).remove();
 				$(".card-container").append(card);
 				showPlayCard(0);
