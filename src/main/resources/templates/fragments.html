@@ -6,58 +6,29 @@
 <script src="https://code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js"></script>
 <script src="../static/js/custom.js" th:src="@{/js/custom.js}"></script>
-<link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre.min.css">
-<link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-exp.min.css">
-<link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-icons.min.css">
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
-<link rel="stylesheet" href="../static/css/hover-min.css" th:href="@{/css/hover-min.css}" />
-<link rel="stylesheet" href="../static/css/flip.css" th:href="@{/css/flip.css}" />
-<link rel="stylesheet" href="../static/css/custom.css" th:href="@{/css/custom.css}" />
-
-
+<link rel="stylesheet" type="text/css" href="https://unpkg.com/spectre.css/dist/spectre.min.css">
+<link rel="stylesheet" type="text/css" href="https://unpkg.com/spectre.css/dist/spectre-exp.min.css">
+<link rel="stylesheet" type="text/css" href="https://unpkg.com/spectre.css/dist/spectre-icons.min.css">
+<link rel="stylesheet" type="text/css" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+<link rel="stylesheet" type="text/css" href="../static/css/hover-min.css" th:href="@{/css/hover-min.css}" />
+<link rel="stylesheet" type="text/css" href="../static/css/flip.css" th:href="@{/css/flip.css}" />
+<link rel="stylesheet" type="text/css" href="../static/css/custom.css" th:href="@{/css/custom.css}" />
 </head>
 <body>
 	<!-- Navigation -->
-	<nav th:fragment="header" class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-		<div class="container">
-			<a class="navbar-brand" href="#">Spaced</a>
-			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
-			</button>
-			<div class="collapse navbar-collapse" id="navbarResponsive">
-				<ul class="navbar-nav ml-auto">
-					<li class="nav-item"><a class="nav-link" href="/index" th:href="@{/index}" title="home"><i class="fas fa-home text-muted"></i></a></li>
-					<li class="nav-item"><a class="nav-link" href="#" th:href="@{/about}" title="about"><i class="fas fa-info-circle text-muted"></i></a></li>
-					<li class="nav-item" sec:authorize="isAuthenticated()" title="admin dashboard"><a class="nav-link" href="/admin/index" th:href="@{/admin/index}"><i class="fas fa-wrench text-muted"></i></a></li>
-					<li class="nav-item" sec:authorize="isAuthenticated()" title="logout">
-						<form method="post" action="#" th:action="@{/logout}">
-							<button type="submit" class="btn btn-link">
-								<i class="fas fa-sign-out-alt text-muted"></i>
-							</button>
-						</form>
-					</li>
-					<li class="nav-item" sec:authorize="!isAuthenticated()" title="login">
-						<form method="post" action="#" th:action="@{/login}">
-							<button type="submit" class="btn btn-link">
-								<i class="fas fa-sign-in-alt text-muted"></i>
-							</button>
-						</form>
-					</li>
-				</ul>
-			</div>
-		</div>
-	</nav>
-	<!-- Footer -->
-	<footer th:fragment="footer" class="footer py-3 bg-dark">
-		<div class="container">
-			<p class="m-0 text-center text-white">My portfolio - 2018</p>
-			<ul class="nav d-inline-flex">
-				<li class="list-inline-item"><a class="nav-link" href="https://github.com/jorgeamadosoria/portfolio" title="github"><i class="fab fa-github text-muted"></i></a></li>
-				<li class="list-inline-item"><a class="nav-link" href="https://www.linkedin.com/in/jorge-soria-98323122" title="linkedIn"><i class="fab fa-linkedin text-muted"></i></a></li>
-				<li class="list-inline-item"><a class="nav-link" href="https://blooming-chamber-41361.herokuapp.com/export/5a8cc9b506805e1a4c65c102" title="Resume"><i class="fas fa-file-alt text-muted"></i></a></li>
-			</ul>
-		</div>
-	</footer>
+	<header th:fragment="header" class="navbar">
+		<section class="navbar-section">
+			&nbsp;&nbsp;<a href="/index" class="navbar-brand mr-2">Spaced</a>
+		</section>
+		<section class="navbar-section">
+			<a title="change password" th:href="@{/password}" class="btn btn-link"><i class="fas fa-key"></i></a> <a title="about page" th:href="@{/about}" class="btn btn-link"><i class="fa fa-info-circle"></i></a> <a title="github repo" href="https://github.com/jorgeamadosoria/spaced" class="btn btn-link"><i class="fab fa-github"></i></a>
+			<form method="post" action="#" th:action="@{/logout}">
+				<button title="logout" type="submit" class="btn btn-link">
+					<i class="fas fa-sign-out-alt text-muted"></i>
+				</button>
+			</form>
+		</section>
+	</header>
 </body>
 </html>
 </body>

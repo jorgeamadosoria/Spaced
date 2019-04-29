@@ -1,6 +1,5 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
-<head
 <head th:replace="fragments::head('Spaced - Home')">
 <title th:text="${title}"></title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -8,20 +7,18 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js"></script>
 <script src="../static/js/testdata.js" th:href="@{/js/testdata.js}"></script>
 <script src="../static/js/custom.js" th:src="@{/js/custom.js}"></script>
-<link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre.min.css">
-<link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-exp.min.css">
-<link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-icons.min.css">
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
-<link rel="stylesheet" href="../static/css/hover-min.css" th:href="@{/css/hover-min.css}" />
-<link rel="stylesheet" href="../static/css/custom.css" th:href="@{/css/custom.css}" />
+<link rel="stylesheet" type="text/css"href="https://unpkg.com/spectre.css/dist/spectre.min.css">
+<link rel="stylesheet" type="text/css"href="https://unpkg.com/spectre.css/dist/spectre-exp.min.css">
+<link rel="stylesheet" type="text/css"href="https://unpkg.com/spectre.css/dist/spectre-icons.min.css">
+<link rel="stylesheet" type="text/css"href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+<link rel="stylesheet" type="text/css"href="../static/css/hover-min.css" th:href="@{/css/hover-min.css}" />
+<link rel="stylesheet" type="text/css"href="../static/css/flip.css" th:href="@{/css/flip.css}" />
+<link rel="stylesheet" type="text/css"href="../static/css/custom.css" th:href="@{/css/custom.css}" />
 </head>
 <body>
-	<header class="navbar">
+	<header th:replace="fragments :: header" class="navbar">
 		<section class="navbar-section">
-			<a href="index.html" class="navbar-brand mr-2">Spaced</a>
-		</section>
-		<section class="navbar-section">
-			<a href="..." class="btn btn-link"><i class="fa fa-info-circle"></i></a> <a href="..." class="btn btn-link"><i class="fa fa-sign-out-alt"></i></a>
+			&nbsp;&nbsp;<a href="index.html" class="navbar-brand mr-2">Spaced</a>
 		</section>
 	</header>
 	<div class="docs-content">
@@ -96,6 +93,7 @@
 		$($(e.target).attr("href")).find("#image").val($(cardsetId).find(".fixed-image").attr("src"));
 		$($(e.target).attr("href")).addClass("active");
 	});
+	$("a#logout").on("click",e => $.post("/logout"));
 	/*]]>*/
 </script>
 </html>

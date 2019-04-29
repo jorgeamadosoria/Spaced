@@ -1,38 +1,38 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments::head('My Portfolio - Login')">
-<title>My Portfolio - Login</title>
+<head th:replace="fragments::head('Spaced - Login')">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <script src="https://code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js"></script>
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js">
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
-<link rel="stylesheet" href="../../static/css/custom.css" th:href="@{/css/custom.css}" />
+<link rel="stylesheet" type="text/css"href="https://unpkg.com/spectre.css/dist/spectre.min.css">
+<link rel="stylesheet" type="text/css"href="https://unpkg.com/spectre.css/dist/spectre-exp.min.css">
+<link rel="stylesheet" type="text/css"href="https://unpkg.com/spectre.css/dist/spectre-icons.min.css">
+<link rel="stylesheet" type="text/css"href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+<link rel="stylesheet" type="text/css"href="../static/css/hover-min.css" th:href="@{/css/hover-min.css}" />
+<link rel="stylesheet" type="text/css"href="../static/css/custom.css" th:href="@{/css/custom.css}" />
 </head>
 <body>
-	<!-- Navigation -->
-	<nav th:replace="fragments :: header"></nav>
+	<br />
 	<div class="container">
-		<div class="row justify-content-md-center">
-			<div class="col-md-10 col-lg-6 col-sm-12">
+		<div class="columns">
+			<div class="column col-12 tile tile-centered col-mx-auto horz-center">
 				<div class="card">
+					<div class="card-header">
+						<h2>Spaced</h2>
+					</div>
 					<div class="card-body">
 						<form name="f" th:action="@{/login}" method="post">
-							<h5 class="card-title">Local login</h5>
 							<div th:if="${param.error}" class="alert alert-error">Invalid username and password.</div>
 							<div th:if="${param.logout}" class="alert alert-success">You have been logged out.</div>
-							<div class="form-group row">
-								<label for="username" class="col-form-label">Username</label>
-								<input type="text" id="username" name="username" class="form-control" />
+							<div class="form-group col">
+								<input type="text" id="username" name="username" placeholder="username" class="form-control" />
 							</div>
-							<div class="form-group row">
-								<label for="password" class="col-form-label">Password</label>
-								<input type="password" id="password" name="password" class="form-control" />
+							<div class="form-group col">
+								<input type="password" id="password" name="password" placeholder="password" class="form-control" />
 							</div>
-							<div class="form-group row justify-content-end">
+							<div class="form-group col text-right">
 								<button type="submit" class="btn btn-secondary">Log in</button>
 							</div>
 						</form>
@@ -41,6 +41,5 @@
 			</div>
 		</div>
 	</div>
-	<footer th:replace="fragments :: footer"> </footer>
 </body>
 </html>

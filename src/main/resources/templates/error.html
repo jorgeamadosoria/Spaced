@@ -1,0 +1,39 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments::head('Spaced - Error')">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<script src="https://code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js"></script>
+<script src="../static/js/testdata.js" th:src="@{/js/testdata.js}"></script>
+<script src="../static/js/custom.js" th:src="@{/js/custom.js}"></script>
+<link rel="stylesheet" type="text/css"href="https://unpkg.com/spectre.css/dist/spectre.min.css">
+<link rel="stylesheet" type="text/css"href="https://unpkg.com/spectre.css/dist/spectre-exp.min.css">
+<link rel="stylesheet" type="text/css"href="https://unpkg.com/spectre.css/dist/spectre-icons.min.css">
+<link rel="stylesheet" type="text/css"href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+<link rel="stylesheet" type="text/css"href="../static/css/hover-min.css" th:href="@{/css/hover-min.css}" />
+<link rel="stylesheet" type="text/css"href="../static/css/flip.css" th:href="@{/css/flip.css}" />
+<link rel="stylesheet" type="text/css"href="../static/css/custom.css" th:href="@{/css/custom.css}" />
+</head>
+<body>
+	<br>
+	<div class="container">
+		<div class="columns">
+			<div class="column col-3" th:text="${exception}"></div>
+			<div class="column col-6">
+				<div id="card-model-finish" class="card">
+					<div class="card-body tile tile-centered">
+						<div class="column col-5">
+							<i class="fa fa-8x text-error fa-exclamation-circle"></i>
+						</div>
+						<div class="column col-7">
+						<p><span th:text="${status}"></span>&nbsp;-&nbsp;<span th:text="${error}"></span></p>
+						<p th:text="${message}" ></p>
+							<a href="/index">Back to index</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
