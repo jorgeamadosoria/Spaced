@@ -4,6 +4,11 @@
 
 }
 
+.tech-about {
+	min-height:60px;
+	max-height:60px;
+}
+
 textarea {
 	resize:none;
 }
