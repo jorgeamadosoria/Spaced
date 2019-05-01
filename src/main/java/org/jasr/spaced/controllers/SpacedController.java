@@ -40,7 +40,7 @@ public class SpacedController {
 	public String password(Model model) {
 		return "password";
 	}
-	
+
 	@GetMapping("/about")
 	public String about(Model model) {
 		return "about";
@@ -117,10 +117,19 @@ public class SpacedController {
 	}
 	// -------------------------------------------------------------------------------------------------------------
 
+	private static String WRONG_PASSWORD = "Current password is incorrect or empty";
+	private static String PASSWORD_MISMATCH = "New passwords input does not match";
+
 	@PostMapping("/password")
 	public String changePassword(Model model, @RequestParam String cpassword, @RequestParam String npassword, @RequestParam String rpassword) {
 
-		if (!StringUtils.isEmpty(cpassword) && !StringUtils.isEmpty(npassword) && npassword.equals(rpassword) && passwordEncoder.matches(cpassword, usersService.loadUserByUsername("admin").getPassword()))
+		if (StringUtils.isEmpty(cpassword) || !passwordEncoder.matches(cpassword, usersService.loadUserByUsername("admin").getPassword())) {
+			model.addAttribute("error", WRONG_PASSWORD);
+			return "/password";
+		} else if (StringUtils.isEmpty(npassword) || StringUtils.isEmpty(rpassword) || !npassword.equals(rpassword)) {
+			model.addAttribute("error", PASSWORD_MISMATCH);
+			return "/password";
+		} else
 			usersService.changePassword(cpassword, npassword);
 		return "redirect:/index";
 	}
@@ -129,11 +138,6 @@ public class SpacedController {
 	public ResponseEntity<Optional<Card>> card(@PathVariable Long id) {
 		return this.get(cardRepository, id);
 	}
-
-	// today set for a cardset
-
-	// card ok
-	// card wrong
 
 	private <T> ResponseEntity<Optional<T>> get(JpaRepository<T, Long> repository, @PathVariable Long id) {
 		return new ResponseEntity<>(repository.findById(id), HttpStatus.OK);

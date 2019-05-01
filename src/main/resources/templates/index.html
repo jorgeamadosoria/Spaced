@@ -7,13 +7,13 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js"></script>
 <script src="../static/js/testdata.js" th:href="@{/js/testdata.js}"></script>
 <script src="../static/js/custom.js" th:src="@{/js/custom.js}"></script>
-<link rel="stylesheet" type="text/css"href="https://unpkg.com/spectre.css/dist/spectre.min.css">
-<link rel="stylesheet" type="text/css"href="https://unpkg.com/spectre.css/dist/spectre-exp.min.css">
-<link rel="stylesheet" type="text/css"href="https://unpkg.com/spectre.css/dist/spectre-icons.min.css">
-<link rel="stylesheet" type="text/css"href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
-<link rel="stylesheet" type="text/css"href="../static/css/hover-min.css" th:href="@{/css/hover-min.css}" />
-<link rel="stylesheet" type="text/css"href="../static/css/flip.css" th:href="@{/css/flip.css}" />
-<link rel="stylesheet" type="text/css"href="../static/css/custom.css" th:href="@{/css/custom.css}" />
+<link rel="stylesheet" type="text/css" href="https://unpkg.com/spectre.css/dist/spectre.min.css">
+<link rel="stylesheet" type="text/css" href="https://unpkg.com/spectre.css/dist/spectre-exp.min.css">
+<link rel="stylesheet" type="text/css" href="https://unpkg.com/spectre.css/dist/spectre-icons.min.css">
+<link rel="stylesheet" type="text/css" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+<link rel="stylesheet" type="text/css" href="../static/css/hover-min.css" th:href="@{/css/hover-min.css}" />
+<link rel="stylesheet" type="text/css" href="../static/css/flip.css" th:href="@{/css/flip.css}" />
+<link rel="stylesheet" type="text/css" href="../static/css/custom.css" th:href="@{/css/custom.css}" />
 </head>
 <body>
 	<header th:replace="fragments :: header" class="navbar">
@@ -57,6 +57,7 @@
 					<a id="modal-close" href="#close" class="btn btn-clear float-right" aria-label="Close"></a>
 					<div class="modal-title h5">New Cardset</div>
 					<form method="post" action="/entities/cardset">
+						<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
 						<input type="hidden" id="id" name="id">
 						<div class="form-group">
 							<label class="form-label" for="name">Name</label>

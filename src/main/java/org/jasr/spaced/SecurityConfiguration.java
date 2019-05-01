@@ -1,5 +1,6 @@
 package org.jasr.spaced;
 
+import java.security.SecureRandom;
 import java.util.Arrays;
 
 import javax.sql.DataSource;
@@ -25,7 +26,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Bean
 	public BCryptPasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
+		return new BCryptPasswordEncoder(12,new SecureRandom("passwordSeed".getBytes()));
 	}
 
 	@Override
@@ -35,9 +36,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(AuthenticationManagerBuilder builder) throws Exception {
-		BCryptPasswordEncoder passwordEncoder = passwordEncoder();
 		JdbcUserDetailsManagerConfigurer<AuthenticationManagerBuilder> jdbc = builder.jdbcAuthentication();
-		jdbc.dataSource(dataSource).passwordEncoder(passwordEncoder);
+		jdbc.dataSource(dataSource).passwordEncoder(passwordEncoder());
 		JdbcUserDetailsManager usersService = jdbc.getUserDetailsService();
 		usersService.setJdbcTemplate(new JdbcTemplate(dataSource));
 		createFirstUser(usersService);
