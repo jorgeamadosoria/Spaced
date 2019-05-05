@@ -32,8 +32,14 @@
 			</div>
 			<div class="tile-content">
 				<p class="tile-title" th:text="${cardset.name}"></p>
-				<p class="tile-body" th:text="${cardset.description}"></p>
 			</div>
+		</div>
+		<div class="tile tile-centered">
+			<div class="tile-icon">
+			</div>
+		<div class="tile tile-content description" 
+				th:text="${cardset.description}">
+		</div>
 		</div>
 		<div class="divider text-center" data-content="Cards"></div>
 		<div class="container ">
@@ -51,7 +57,7 @@
 						<div class="card-header">
 							<div class="card-title" id="task" th:text="${card.task}"></div>
 						</div>
-						<div class="card-body" id="answer" th:text="${card.answer}"></div>
+						<div class="card-body description" id="answer" th:text="${card.answer}"></div>
 						<div class="card-footer">
 							<a href="#modal-create-card" title="edit set" class="link-edit btn btn-sm btn-primary hvr-grow"><i class="fas fa-edit"></i></a>&nbsp;&nbsp; <a href="#" title="delete set" class="link-delete btn btn-sm btn-error hvr-grow"><i class="fas fa-trash-alt"></i></a>&nbsp;&nbsp;
 						</div>

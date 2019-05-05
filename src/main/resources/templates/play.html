@@ -31,7 +31,7 @@
 			<div id="play" class="column col-4 scene scene--card-flip">
 				<div class="card-flip">
 					<div id="card-model-front" class="card card__face card__face--front">
-						<div class="card-body tile tile-centered">
+						<div class="card-body col-mx-auto tile tile-centered">
 							<h1 id="task" class="text-center"></h1>
 						</div>
 						<div class="card-footer">
@@ -39,8 +39,8 @@
 						</div>
 					</div>
 					<div id="card-model-back" class="card card__face card__face--back">
-						<div class="card-body tile tile-centered">
-							<h3 id="answer" class="text-center"></h3>
+						<div class="card-body col-mx-auto tile tile-centered">
+							<h3 id="answer" class="text-center description"></h3>
 						</div>
 						<div class="card-footer"></div>
 					</div>
@@ -70,15 +70,14 @@
 		</div>
 		<div class="container">
 			<div class="columns work-panel">
-				<div class="column col-12 col-mx-auto text-center">
-					<textarea cols="100" rows="10" id="workarea" placeholder="Workarea"></textarea>
+				<div class="column col-10 col-mx-auto text-center">
+					<textarea cols="50" rows="10" id="workarea" placeholder="Workarea"></textarea>
 				</div>
 			</div>
 		</div>
 		<div class="container">
 			<div class="columns">
-				<div class="column col-12 col-mx-auto text-center">
-					<textarea cols="100" rows="10" th:text="${description}" readonly></textarea>
+				<div class="column col-8 col-mx-auto description" th:text="${description}">
 				</div>
 			</div>
 		</div>

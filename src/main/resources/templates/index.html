@@ -33,7 +33,7 @@
 				</div>
 				<div th:each="cardset : ${cardsets}" class="column col-3">
 					<div th:id="'cardset-' + ${cardset.id}" class="card cheight">
-						<div class="card-image">
+						<div class="card-image col-mx-auto">
 							<img class="fixed-image img-responsive" th:src="${cardset.image}">
 						</div>
 						<div class="card-header tile tile-centered text-justified">
