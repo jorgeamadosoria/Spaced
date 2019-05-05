@@ -39,7 +39,6 @@
 						<div class="card-header tile tile-centered text-justified">
 							<span class="card-title h5" th:text="${cardset.name}"></span>
 						</div>
-						<div class="card-body"></div>
 						<div class="card-footer">
 							<div class="text-center">
 								<a th:href="@{'entities/cardset/delete/' + ${cardset.id}}" title="remove set" class="btn btn-sm btn-error hvr-grow"><i class="fas fa-trash-alt"></i></a>&nbsp;&nbsp; <a id="cardset-edit" th:attr="data-id=${cardset.id}" href="#modal-create-cardset" title="edit set" class="btn btn-sm btn-primary hvr-grow"><i th:attr="data-id=${cardset.id}" href="#modal-create-cardset" class="fas fa-edit"></i></a> &nbsp;&nbsp; <a th:href="@{'cardset/' + ${cardset.id}}" title="edit cards"
@@ -68,6 +67,10 @@
 							<input class="form-input" type="text" id="image" name="image" placeholder="Image URL">
 						</div>
 						<div class="form-group">
+							<label class="form-label" for="name">Description</label>
+							<textarea class="form-input" id="description" name="description" placeholder="Description" rows="10"></textarea>
+						</div>
+						<div class="form-group">
 							<button type="reset" class="btn btn-primary">Reset</button>
 							<button type="submit" class="btn btn-primary">Submit</button>
 						</div>
@@ -86,7 +89,7 @@
 <script>
 	/*<![CDATA[*/
 	$("#modal-close").click(e=> $("#modal-create-cardset").removeClass("active"));
-	$("#cardset-add").click(e => $(e.target).attr("href").addClass("active"));
+//	$("#cardset-add").click(e => $(e.target).attr("href").addClass("active"));
 	$("#cardset-edit").click(e => {
 		var cardsetId = "#cardset-" + $(e.target).attr("data-id");
 		$($(e.target).attr("href")).find("#id").val($(e.target).attr("data-id"));

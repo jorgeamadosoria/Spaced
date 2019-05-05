@@ -13,6 +13,7 @@ import org.hibernate.annotations.CascadeType;
 public class CardSet extends BaseEntity {
 
 	private String name;
+	private String description;
 	private String image;
 	@OneToMany
 	@JoinColumn(name = "cardset_id")
@@ -22,6 +23,20 @@ public class CardSet extends BaseEntity {
     public CardSet() {
 		super();
 	}
+
+    
+    
+	public String getDescription() {
+		return description;
+	}
+
+
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+
 
 	public CardSet(Long id) {
 		super(id);

@@ -90,6 +90,7 @@ public class SpacedController {
 	 */
 	@GetMapping("/play/{id}")
 	public String play(Model model, @PathVariable Long id) {
+		model.addAttribute("description",cardSetRepository.getOne(id).getDescription());
 		model.addAttribute("cards", Stream.concat(cardRepository.findTop5ByCardsetIdAndPlayIsNull(id).stream(), cardRepository.findTop5ByCardsetIdAndRecurrenceGreaterThanAndPlayIsNotAndPlayIsNotNullOrderByPlayAsc(id, -1, new Date()).stream()).collect(Collectors.toList()));
 		return "play";
 	}
