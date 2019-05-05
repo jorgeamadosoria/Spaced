@@ -57,10 +57,13 @@
 		</div>
 		<div class="container">
 			<div class="columns button-panel">
-				<div class="column col-6 text-center">
+				<div class="column col-5 text-center">
 					<button id="right-btn" href="" class="btn btn-success">Right</button>
 				</div>
-				<div class="column col-6 text-center">
+				<div class="column col-2 text-center">
+					<div id="answer-ok" class="d-hide text-success"><b>Correct!</b></div>
+				</div>
+				<div class="column col-5 text-center">
 					<button id="wrong-btn" href="" class="btn btn-error">Wrong</button>
 				</div>
 			</div>
@@ -68,7 +71,7 @@
 		<div class="container">
 			<div class="columns work-panel">
 				<div class="column col-12 col-mx-auto text-center">
-					<textarea cols="100" rows="10" placeholder="Workarea"></textarea>
+					<textarea cols="100" rows="10" id="workarea" placeholder="Workarea"></textarea>
 				</div>
 			</div>
 		</div>
@@ -139,6 +142,19 @@
 			showPlayCard(0);
 		}
 
+	});
+	
+	$("#workarea").on("change keyup paste",() => {
+		var answer = $("#answer").text();
+	//	alert(answer);
+		var work = $("#workarea").val();
+		if (answer === work){
+			$("#answer-ok").removeClass("d-hide");
+		}
+		else {
+			$("#answer-ok").addClass("d-hide");
+		}
+		return;
 	});
 
 	$("#wrong-btn").on("click", function(e) {
