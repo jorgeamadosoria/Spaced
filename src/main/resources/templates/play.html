@@ -122,26 +122,7 @@
 				"width:" + (size - cardsLeft) / size * 100 + "%");
 	}
 
-	$("#right-btn").on("click", function(e) {
-		var card = $(".card-container").find(".card-data").get(0);
 
-		//	alert(card);
-		var id = $(card).attr("data-id");
-		//only submit the first time you get the card right
-		if (id) {
-			$.post("/play/right/" + id, csrf).done(function() {
-				$("textarea").val('');
-				$(card).remove();
-				barProgress();
-				showPlayCard(0);
-			});
-		} else {
-			$(card).remove();
-			barProgress();
-			showPlayCard(0);
-		}
-
-	});
 	
 	$("#workarea").on("change keyup paste",() => {
 		var answer = $("#answer").text();
@@ -156,6 +137,27 @@
 		return;
 	});
 
+	$("#right-btn").on("click", function(e) {
+		var card = $(".card-container").find(".card-data").get(0);
+
+		var id = $(card).attr("data-id");
+		//only submit the first time you get the card right
+		if (id) {
+			$.post("/play/right/" + id, csrf).done(function() {
+				$("textarea").val('');
+				$("#answer-ok").addClass("d-hide");
+				$(card).remove();
+				barProgress();
+				showPlayCard(0);
+			});
+		} else {
+			$(card).remove();
+			barProgress();
+			showPlayCard(0);
+		}
+
+	});
+	
 	$("#wrong-btn").on("click", function(e) {
 		var card = $(".card-container").find(".card-data").get(0);
 		var id = $(card).attr("data-id");
@@ -164,6 +166,7 @@
 			$.post("/play/wrong/" + id, csrf).done(function() {
 				$(card).removeAttr("data-id");
 				$("textarea").val('');
+				$("#answer-ok").addClass("d-hide");
 				$(card).remove();
 				$(".card-container").append(card);
 				showPlayCard(0);
