@@ -21,5 +21,5 @@ public interface CardRepository extends JpaRepository<Card, Long> {
 	int updateCardDate(@Param("play") Date play, @Param("id") Long id);
 	
 	public List<Card> findTop5ByCardsetIdAndPlayIsNull(Long id);
-	public List<Card> findTop5ByCardsetIdAndRecurrenceGreaterThanAndPlayIsNotAndPlayIsNotNullOrderByPlayAsc(Long id,int recurrence, Date now);
+	public List<Card> findTop10ByCardsetIdAndRecurrenceGreaterThanAndPlayIsNotAndPlayIsNotNullOrderByPlayAsc(Long id,int recurrence, Date now);
 }

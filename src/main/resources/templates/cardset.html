@@ -35,38 +35,35 @@
 			</div>
 		</div>
 		<div class="tile tile-centered">
-			<div class="tile-icon">
-			</div>
-		<div class="tile tile-content description" 
-				th:text="${cardset.description}">
-		</div>
+			<div class="tile-icon"></div>
+			<div class="tile tile-content description" th:text="${cardset.description}"></div>
 		</div>
 		<div class="divider text-center" data-content="Cards"></div>
 		<div class="container ">
 			<div class="columns">
-				<div class="column col-2">
-					<div class="card cheight">
-						<div class="card-body tile tile-centered horz-center" id="answer">
-							<a id="card-add" href="#modal-create-card"><i class="fas fa-6x fa-plus-circle"></i></a>
+				<div class="card">
+					<div class="card-header">
+						<div class="card-title columns" id="answer">
+							<div class="col-12">
+								<a id="card-add" href="#modal-create-card"><i class="fas fa-plus-circle"></i></a>
+							</div>
 						</div>
 					</div>
-					<br>
 				</div>
-				<div th:each="card: ${cardset.cards}" class="column col-2">
-					<div th:id="${card.id}" class="card cheight">
+				<div th:each="card: ${cardset.cards}" class="column col-4">
+					<div th:id="${card.id}" class="card">
 						<div class="card-header">
-							<div class="card-title" id="task" th:text="${card.task}"></div>
-						</div>
-						<div class="card-body description" id="answer" th:text="${card.answer}"></div>
-						<div class="card-footer">
-							<a href="#modal-create-card" title="edit set" class="link-edit btn btn-sm btn-primary hvr-grow"><i class="fas fa-edit"></i></a>&nbsp;&nbsp; <a href="#" title="delete set" class="link-delete btn btn-sm btn-error hvr-grow"><i class="fas fa-trash-alt"></i></a>&nbsp;&nbsp;
+							<div class="card-title columns" id="task">
+								<div class="col-8" th:text="${card.task}"></div>
+								<div class="col-4">
+									<a href="#modal-create-card" title="edit set" class="link-edit btn btn-sm btn-primary hvr-grow"><i class="fas fa-edit"></i></a>&nbsp;&nbsp; <a href="#" title="delete set" class="link-delete btn btn-sm btn-error hvr-grow"><i class="fas fa-trash-alt"></i></a>
+								</div>
+							</div>
 						</div>
 					</div>
-					<br>
 				</div>
 			</div>
 		</div>
-	</div>
 	</div>
 	<div class="modal modal-lg" id="modal-create-card">
 		<a href="#close" class="modal-overlay" aria-label="Close"></a>
