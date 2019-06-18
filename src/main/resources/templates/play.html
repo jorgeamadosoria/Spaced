@@ -5,13 +5,14 @@
 <script src="https://code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js"></script>
 <script src="../static/js/custom.js" th:src="@{/js/custom.js}"></script>
-<link rel="stylesheet" type="text/css"href="https://unpkg.com/spectre.css/dist/spectre.min.css">
-<link rel="stylesheet" type="text/css"href="https://unpkg.com/spectre.css/dist/spectre-exp.min.css">
-<link rel="stylesheet" type="text/css"href="https://unpkg.com/spectre.css/dist/spectre-icons.min.css">
-<link rel="stylesheet" type="text/css"href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
-<link rel="stylesheet" type="text/css"href="../static/css/hover-min.css" th:href="@{/css/hover-min.css}" />
-<link rel="stylesheet" type="text/css"href="../static/css/flip.css" th:href="@{/css/flip.css}" />
-<link rel="stylesheet" type="text/css"href="../static/css/custom.css" th:href="@{/css/custom.css}" /></head>
+<link rel="stylesheet" type="text/css" href="https://unpkg.com/spectre.css/dist/spectre.min.css">
+<link rel="stylesheet" type="text/css" href="https://unpkg.com/spectre.css/dist/spectre-exp.min.css">
+<link rel="stylesheet" type="text/css" href="https://unpkg.com/spectre.css/dist/spectre-icons.min.css">
+<link rel="stylesheet" type="text/css" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+<link rel="stylesheet" type="text/css" href="../static/css/hover-min.css" th:href="@{/css/hover-min.css}" />
+<link rel="stylesheet" type="text/css" href="../static/css/flip.css" th:href="@{/css/flip.css}" />
+<link rel="stylesheet" type="text/css" href="../static/css/custom.css" th:href="@{/css/custom.css}" />
+</head>
 <body>
 	<header th:replace="fragments :: header" class="navbar">
 		<section class="navbar-section">
@@ -61,7 +62,9 @@
 					<button id="right-btn" href="" class="btn btn-success">Right</button>
 				</div>
 				<div class="column col-2 text-center">
-					<div id="answer-ok" class="d-hide text-success"><b>Correct!</b></div>
+					<div id="answer-ok" class="d-hide text-success">
+						<b>Correct!</b>
+					</div>
 				</div>
 				<div class="column col-5 text-center">
 					<button id="wrong-btn" href="" class="btn btn-error">Wrong</button>
@@ -77,12 +80,10 @@
 		</div>
 		<div class="container">
 			<div class="columns">
-				<div class="column col-8 col-mx-auto description" th:text="${description}">
-				</div>
+				<div class="column col-8 col-mx-auto description" th:text="${description}"></div>
 			</div>
 		</div>
 	</div>
-	
 </body>
 <script>
 	/*<![CDATA[*/
@@ -107,12 +108,17 @@
 		} else {
 			$("textarea").val('');
 			$(".button-panel,.work-panel").addClass("d-hide");
-			$(
-					"#card-model-front,#card-model-back,#card-model-finish")
+			$("#card-model-front,#card-model-back,#card-model-finish")
 					.toggleClass("d-hide");
-
 		}
-
+	}
+	
+	function compare(work,answer){
+		
+		work = work.replace(/\s/g,'');
+		answer = answer.replace(/\s/g,'');
+		
+		return work === answer;	
 	}
 
 	function barProgress() {
@@ -121,14 +127,12 @@
 		$(".bar-item").attr("style",
 				"width:" + (size - cardsLeft) / size * 100 + "%");
 	}
-
-
 	
 	$("#workarea").on("change keyup paste",() => {
 		var answer = $("#answer").text();
 	//	alert(answer);
 		var work = $("#workarea").val();
-		if (answer === work){
+		if (compare(work,answer)){
 			$("#answer-ok").removeClass("d-hide");
 		}
 		else {
