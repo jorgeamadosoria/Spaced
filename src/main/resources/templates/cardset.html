@@ -53,8 +53,8 @@
 				<div th:each="card: ${cardset.cards}" class="column col-4">
 					<div th:id="${card.id}" class="card">
 						<div class="card-header">
-							<div class="card-title columns" id="task">
-								<div class="col-8" th:text="${card.task}"></div>
+							<div class="card-title columns" id="task" th:answer="${card.answer}">
+								<div class="col-8" th:text="${card.task}" ></div>
 								<div class="col-4">
 									<a href="#modal-create-card" title="edit set" class="link-edit btn btn-sm btn-primary hvr-grow"><i class="fas fa-edit"></i></a>&nbsp;&nbsp; <a href="#" title="delete set" class="link-delete btn btn-sm btn-error hvr-grow"><i class="fas fa-trash-alt"></i></a>
 								</div>
@@ -111,8 +111,9 @@
 		var card = $(e.target).parent().parents(".card");
 		var id = card.attr("id");
 		$("#modal-create-card #id").val(id);
-		$("#modal-create-card #task").val(card.find("#task").text());
-		$("#modal-create-card #answer").val(card.find("#answer").text());
+		$("#modal-create-card #task").val(card.find("#task").text().trim());
+		$("#modal-create-card #answer").val(card.find("#task").attr("answer"));
+		alert(card.find("#task").html());
 		
 		$($(e.target).attr("href")).addClass("active");
 		e.stopPropagation();
