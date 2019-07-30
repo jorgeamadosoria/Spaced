@@ -113,7 +113,7 @@
 		$("#modal-create-card #id").val(id);
 		$("#modal-create-card #task").val(card.find("#task").text().trim());
 		$("#modal-create-card #answer").val(card.find("#task").attr("answer"));
-		alert(card.find("#task").html());
+	
 		
 		$($(e.target).attr("href")).addClass("active");
 		e.stopPropagation();
