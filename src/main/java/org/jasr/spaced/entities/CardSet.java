@@ -3,6 +3,7 @@ package org.jasr.spaced.entities;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 
@@ -15,39 +16,21 @@ public class CardSet extends BaseEntity {
 	private String name;
 	private String description;
 	private String image;
-	@OneToMany
-	@JoinColumn(name = "cardset_id")
-	@Cascade({CascadeType.ALL})
-	private List<Card> cards;
-	
-    public CardSet() {
+
+	public CardSet() {
 		super();
 	}
 
-    
-    
 	public String getDescription() {
 		return description;
 	}
-
-
 
 	public void setDescription(String description) {
 		this.description = description;
 	}
 
-
-
 	public CardSet(Long id) {
 		super(id);
-	}
-
-	public List<Card> getCards() {
-		return cards;
-	}
-
-	public void setCards(List<Card> cards) {
-		this.cards = cards;
 	}
 
 	public String getImage() {

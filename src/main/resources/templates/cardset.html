@@ -39,29 +39,41 @@
 			<div class="tile tile-content description" th:text="${cardset.description}"></div>
 		</div>
 		<div class="divider text-center" data-content="Cards"></div>
-		<div class="container ">
+		<div class="container">
 			<div class="columns">
-				<div class="card">
-					<div class="card-header">
-						<div class="card-title columns" id="answer">
-							<div class="col-12">
-								<a id="card-add" href="#modal-create-card"><i class="fas fa-plus-circle"></i></a>
-							</div>
-						</div>
-					</div>
+				<div class="column col-3">
+					<a id="card-add" href="#modal-create-card"><i class="fas fa-plus-circle"></i>&nbsp;Add Card</a>
 				</div>
-				<div th:each="card: ${cardset.cards}" class="column col-4">
-					<div th:id="${card.id}" class="card">
-						<div class="card-header">
-							<div class="card-title columns" id="task" th:answer="${card.answer}">
-								<div class="col-8" th:text="${card.task}" ></div>
-								<div class="col-4">
-									<a href="#modal-create-card" title="edit set" class="link-edit btn btn-sm btn-primary hvr-grow"><i class="fas fa-edit"></i></a>&nbsp;&nbsp; <a href="#" title="delete set" class="link-delete btn btn-sm btn-error hvr-grow"><i class="fas fa-trash-alt"></i></a>
-								</div>
-							</div>
-						</div>
-					</div>
+				<div class="column col-8">
+						<li id="page-model" class="d-none page-item"><a class="page-link" href="#">1</a></li>
+					<ul class="pagination">
+					</ul>
 				</div>
+				<div id="card-total" class="column col-1"></div>
+				<div class="class-container column col-12">
+					<table class="table">
+						<thead class="thead-dark">
+							<tr id="card-model" class="d-none" scope="row">
+								<td scope="col" id="task"></td>
+								<td scope="col" id="play"></td>
+								<td scope="col" id="deck"></td>
+								<td scope="col" id="answer"></td>
+								<td scope="col" id="actions"><a data-card="id" href="#modal-create-card" title="edit card" class="link-edit btn btn-sm btn-primary hvr-grow"> <i class="fas fa-edit"></i></a>&nbsp;&nbsp; <a data-card="id" href="#" title="delete card" class="link-delete btn btn-sm btn-error hvr-grow"><i class="fas fa-trash-alt"></i></a></td>
+							</tr>
+							<tr>
+								<th>Task</th>
+								<th>Last play</th>
+								<th>Deck</th>
+								<th>Answer</th>
+								<th>Actions</th>
+							</tr>
+						</thead>
+						<tbody>
+						</tbody>
+					</table>
+				</div>
+				<div id="cards"></div>
+				<div id="page"></div>
 			</div>
 		</div>
 	</div>
@@ -101,26 +113,76 @@
 <script>
 	/*<![CDATA[*/
 		
-		var _csrfParameterName = '[[${_csrf.parameterName}]]';// 'default';
+	function cardModal(id,task,answer){
+		$("#modal-create-card #id").val(id);
+		$("#modal-create-card #task").val(task);
+		$("#modal-create-card #answer").val(answer);
+	}	
+		
+	function createPageNumber(i,active,enabled,pageFn,customText){
+		var page= $("#page-model").clone().toggleClass("d-none");
+		if (!enabled) $(page).toggleClass('disabled');
+		if (active) $(page).toggleClass('active');
+		$(page).find(".page-link").text(customText?customText:i).click(() => pageFn(i-1));
+		$(".pagination").append(page);
+	}
+		
+	function loadPage(page){
+		$(".pagination").empty();
+		$.get('/cardset/'+$("#cardset-id").val()+'/cards/' + page,
+				(data) => {
+					$("#card-total").text(data.totalElements);
+					$(".class-container tbody").empty();
+					for (var i = 0;i<data.content.length;i++){
+						var row = $("#card-model").clone();
+						$(row).find("#play").text(data.content[i].play);
+						$(row).find("#task").text(data.content[i].task);
+						$(row).find("#answer").text(data.content[i].answer);
+						$(row).find("#actions").find(".link-edit").attr("data-card",data.content[i].id)
+						.click(e => {
+							var task = $(e.target).closest("tr").find("#task").text();
+							var answer = $(e.target).closest("tr").find("#answer").text();
+							console.log(answer);
+							cardModal($(e.target).closest(".link-edit").attr("data-card"),task,answer);
+						//-----------------------------------
+							
+							$(e.target).addClass("active");
+							e.stopPropagation();
+						});
+						$(row).find("#actions").find(".link-delete").attr("data-card",data.content[i].id)
+						.click(e => { 
+								$.get('/entities/card/delete/' + $(e.target).closest(".link-delete").attr("data-card"),
+								() => $(e.target).parent().parents("tr").remove() ); e.stopPropagation();
+							}
+						);
+						$(row).toggleClass("d-none");
+						$(".class-container tbody").append(row);
+					}
+			//	$("#cards").text();
+			
+			//build pagination bar
+			createPageNumber(data.number,true,!data.first,loadPage,'«');
+			for (var i = 1;i<=data.totalPages;i++){
+				createPageNumber(i,data.number+1 == i,true,loadPage);
+			}
+			createPageNumber(data.number+2,true,!data.last,loadPage,'»');
+			//--------------------
+				});
+	}
+		
+	var _csrfParameterName = '[[${_csrf.parameterName}]]';// 'default';
 	var _csrfToken = '[[${_csrf.token}]]';// 'default';
 	var csrf = {};
 	csrf[_csrfParameterName] = _csrfToken;
 	
-	$("#card-add").click(e => $(e.target).addClass("active"));
-	$("a.link-edit").click(e => {
-		var card = $(e.target).parent().parents(".card");
-		var id = card.attr("id");
-		$("#modal-create-card #id").val(id);
-		$("#modal-create-card #task").val(card.find("#task").text().trim());
-		$("#modal-create-card #answer").val(card.find("#task").attr("answer"));
+	//------------ first page ----------
+	var page = 0;
+	loadPage(page);
+	//----------------------------------
 	
-		
-		$($(e.target).attr("href")).addClass("active");
-		e.stopPropagation();
-	});
-	$("a.link-delete").click(e => { 
-	$.get('/entities/card/delete/' + $(e.target).parent().parents(".card").attr("id"),
-			() => $(e.target).parent().parents(".column").remove() ); e.stopPropagation();});
+	
+	//-------- create card invocation
+	$("#card-add").click(e => {cardModal("","","");$(e.target).addClass("active");});
 	/*]]>*/
 </script>
 </html>

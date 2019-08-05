@@ -11,6 +11,8 @@ import org.jasr.spaced.repositories.CardRepository;
 import org.jasr.spaced.repositories.CardSetRepository;
 import org.jasr.spaced.services.impl.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +25,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class SpacedController {
@@ -30,6 +33,8 @@ public class SpacedController {
 	private CardSetRepository cardSetRepository;
 	@Autowired
 	private CardRepository cardRepository;
+	
+	private final int PAGE_SIZE = 10;
 
 	@Autowired
 	private PasswordEncoder passwordEncoder;
@@ -52,9 +57,14 @@ public class SpacedController {
 		return "index";
 	}
 
+	@GetMapping("/cardset/{id}/cards/{page}")
+	@ResponseBody public Page<Card> cards(Model model, @PathVariable Long id,@PathVariable("page") int page) {
+		return cardRepository.findAllByCardsetId(id, PageRequest.of(page, PAGE_SIZE ));
+	}
+	
 	@GetMapping("/cardset/{id}")
 	public String cardset(Model model, @PathVariable Long id) {
-		model.addAttribute("cardset", this.get(cardSetRepository, id).getBody().get());
+		model.addAttribute("cardset", cardSetRepository.findById(id).get());
 		return "cardset";
 	}
 
@@ -137,11 +147,8 @@ public class SpacedController {
 
 	@GetMapping("/card/{id}")
 	public ResponseEntity<Optional<Card>> card(@PathVariable Long id) {
-		return this.get(cardRepository, id);
+		return new ResponseEntity<>(cardRepository.findById(id), HttpStatus.OK);
 	}
 
-	private <T> ResponseEntity<Optional<T>> get(JpaRepository<T, Long> repository, @PathVariable Long id) {
-		return new ResponseEntity<>(repository.findById(id), HttpStatus.OK);
-	}
 
 }
