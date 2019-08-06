@@ -41,24 +41,24 @@
 		<div class="divider text-center" data-content="Cards"></div>
 		<div class="container">
 			<div class="columns">
-				<div class="column col-3">
+				<div class="column col-2">
 					<a id="card-add" href="#modal-create-card"><i class="fas fa-plus-circle"></i>&nbsp;Add Card</a>
 				</div>
-				<div class="column col-8">
+				<div id="card-total" class="column col-1"></div>
+				<div class="column col-9">
 						<li id="page-model" class="d-none page-item"><a class="page-link" href="#">1</a></li>
 					<ul class="pagination">
 					</ul>
 				</div>
-				<div id="card-total" class="column col-1"></div>
 				<div class="class-container column col-12">
 					<table class="table">
 						<thead class="thead-dark">
-							<tr id="card-model" class="d-none" scope="row">
-								<td scope="col" id="task"></td>
-								<td scope="col" id="play"></td>
-								<td scope="col" id="deck"></td>
-								<td scope="col" id="answer"></td>
-								<td scope="col" id="actions"><a data-card="id" href="#modal-create-card" title="edit card" class="link-edit btn btn-sm btn-primary hvr-grow"> <i class="fas fa-edit"></i></a>&nbsp;&nbsp; <a data-card="id" href="#" title="delete card" class="link-delete btn btn-sm btn-error hvr-grow"><i class="fas fa-trash-alt"></i></a></td>
+							<tr id="card-model" class="d-none row">
+								<td class="col-3" id="task"></td>
+								<td class="col-1" id="play"></td>
+								<td class="col-1" id="deck"></td>
+								<td class="col-6"><p id="answer" class="answer"></p></td>
+								<td class="col-1" id="actions"><a data-card="id" href="#modal-create-card" title="edit card" class="link-edit btn btn-sm btn-primary hvr-grow"> <i class="fas fa-edit"></i></a>&nbsp;&nbsp; <a data-card="id" href="#" title="delete card" class="link-delete btn btn-sm btn-error hvr-grow"><i class="fas fa-trash-alt"></i></a></td>
 							</tr>
 							<tr>
 								<th>Task</th>

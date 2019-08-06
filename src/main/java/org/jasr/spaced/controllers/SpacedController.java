@@ -5,6 +5,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import javax.persistence.EntityExistsException;
+
 import org.jasr.spaced.entities.Card;
 import org.jasr.spaced.entities.CardSet;
 import org.jasr.spaced.repositories.CardRepository;
@@ -33,7 +35,7 @@ public class SpacedController {
 	private CardSetRepository cardSetRepository;
 	@Autowired
 	private CardRepository cardRepository;
-	
+
 	private final int PAGE_SIZE = 10;
 
 	@Autowired
@@ -58,10 +60,11 @@ public class SpacedController {
 	}
 
 	@GetMapping("/cardset/{id}/cards/{page}")
-	@ResponseBody public Page<Card> cards(Model model, @PathVariable Long id,@PathVariable("page") int page) {
-		return cardRepository.findAllByCardsetId(id, PageRequest.of(page, PAGE_SIZE ));
+	@ResponseBody
+	public Page<Card> cards(Model model, @PathVariable Long id, @PathVariable("page") int page) {
+		return cardRepository.findAllByCardsetIdOrderByTaskAsc(id, PageRequest.of(page, PAGE_SIZE));
 	}
-	
+
 	@GetMapping("/cardset/{id}")
 	public String cardset(Model model, @PathVariable Long id) {
 		model.addAttribute("cardset", cardSetRepository.findById(id).get());
@@ -69,14 +72,16 @@ public class SpacedController {
 	}
 
 	@PostMapping("/entities/cardset")
-	public String upsertCardSet(Model model, @ModelAttribute CardSet entity) {
-		return this.upsert(cardSetRepository, model, entity, "redirect:/index");
+	public ResponseEntity<String> upsertCardSet(Model model, @ModelAttribute CardSet entity) {
+		String result = this.upsert(cardSetRepository, model, entity, "redirect:/index");
+		return ResponseEntity.status((result == null) ? HttpStatus.CONFLICT : HttpStatus.FOUND).body(result);
 	}
 
 	@PostMapping("/entities/card")
-	public String upsertCard(Model model, @ModelAttribute(name = "cardset-id") Long id, @ModelAttribute Card entity) {
+	public ResponseEntity<String> upsertCard(Model model, @ModelAttribute(name = "cardset-id") Long id, @ModelAttribute Card entity) {
 		entity.setCardset(new CardSet(id));
-		return this.upsert(cardRepository, model, entity, "redirect:/cardset/" + id);
+		String result = this.upsert(cardRepository, model, entity, "redirect:/cardset/" + id);
+		return ResponseEntity.status((result == null) ? HttpStatus.CONFLICT : HttpStatus.FOUND).body(result);
 	}
 
 	@GetMapping("/entities/card/delete/{id}")
@@ -100,7 +105,7 @@ public class SpacedController {
 	 */
 	@GetMapping("/play/{id}")
 	public String play(Model model, @PathVariable Long id) {
-		model.addAttribute("description",cardSetRepository.getOne(id).getDescription());
+		model.addAttribute("description", cardSetRepository.getOne(id).getDescription());
 		model.addAttribute("cards", Stream.concat(cardRepository.findTop5ByCardsetIdAndPlayIsNull(id).stream(), cardRepository.findTop10ByCardsetIdAndRecurrenceGreaterThanAndPlayIsNotAndPlayIsNotNullOrderByPlayAsc(id, -1, new Date()).stream()).collect(Collectors.toList()));
 		return "play";
 	}
@@ -118,7 +123,11 @@ public class SpacedController {
 	}
 
 	private <T> String upsert(JpaRepository<T, Long> repository, Model model, @ModelAttribute T entity, String result) {
-		repository.saveAndFlush(entity);
+		try {
+			repository.saveAndFlush(entity);
+		} catch (EntityExistsException e) {
+			return null;
+		}
 		return result;
 	}
 
@@ -149,6 +158,5 @@ public class SpacedController {
 	public ResponseEntity<Optional<Card>> card(@PathVariable Long id) {
 		return new ResponseEntity<>(cardRepository.findById(id), HttpStatus.OK);
 	}
-
 
 }

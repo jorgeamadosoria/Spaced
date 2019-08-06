@@ -22,7 +22,7 @@ public interface CardRepository extends JpaRepository<Card, Long> {
 	@Query("update Card c set c.play = :play where c.id = :id")
 	int updateCardDate(@Param("play") Date play, @Param("id") Long id);
 	
-	Page<Card> findAllByCardsetId(Long cardsetId,Pageable pageable);
+	Page<Card> findAllByCardsetIdOrderByTaskAsc(Long cardsetId,Pageable pageable);
 	
 	public List<Card> findTop5ByCardsetIdAndPlayIsNull(Long id);
 	public List<Card> findTop10ByCardsetIdAndRecurrenceGreaterThanAndPlayIsNotAndPlayIsNotNullOrderByPlayAsc(Long id,int recurrence, Date now);
