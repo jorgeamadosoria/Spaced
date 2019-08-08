@@ -6,12 +6,12 @@ import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
 @MappedSuperclass
-public class BaseEntity {
+public abstract class BaseEntity {
 
 	public BaseEntity() {
         super();
     }
-
+	
     public BaseEntity(Long id) {
         super();
         this.id = id;

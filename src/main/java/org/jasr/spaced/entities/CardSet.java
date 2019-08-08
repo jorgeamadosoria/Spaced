@@ -49,4 +49,5 @@ public class CardSet extends BaseEntity {
 		this.name = name;
 	}
 
+
 }

@@ -5,17 +5,20 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import javax.persistence.EntityExistsException;
-
+import org.jasr.spaced.entities.BaseEntity;
 import org.jasr.spaced.entities.Card;
 import org.jasr.spaced.entities.CardSet;
 import org.jasr.spaced.repositories.CardRepository;
 import org.jasr.spaced.repositories.CardSetRepository;
 import org.jasr.spaced.services.impl.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -71,17 +74,32 @@ public class SpacedController {
 		return "cardset";
 	}
 
+	ExampleMatcher NAME_MATCHER = ExampleMatcher.matching().withMatcher("name", GenericPropertyMatchers.ignoreCase());
+
 	@PostMapping("/entities/cardset")
 	public ResponseEntity<String> upsertCardSet(Model model, @ModelAttribute CardSet entity) {
-		String result = this.upsert(cardSetRepository, model, entity, "redirect:/index");
-		return ResponseEntity.status((result == null) ? HttpStatus.CONFLICT : HttpStatus.FOUND).body(result);
+		if (cardSetRepository.exists(Example.<CardSet>of(entity, NAME_MATCHER)))
+			return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
+
+		cardSetRepository.saveAndFlush(entity);
+		HttpHeaders headers = new HttpHeaders();
+		headers.add(HttpHeaders.LOCATION, "/index");
+		return ResponseEntity.status(HttpStatus.FOUND).headers(headers).build();
 	}
+
+	ExampleMatcher TASK_MATCHER = ExampleMatcher.matching().withMatcher("task", GenericPropertyMatchers.ignoreCase());
 
 	@PostMapping("/entities/card")
 	public ResponseEntity<String> upsertCard(Model model, @ModelAttribute(name = "cardset-id") Long id, @ModelAttribute Card entity) {
 		entity.setCardset(new CardSet(id));
-		String result = this.upsert(cardRepository, model, entity, "redirect:/cardset/" + id);
-		return ResponseEntity.status((result == null) ? HttpStatus.CONFLICT : HttpStatus.FOUND).body(result);
+
+		if (cardRepository.exists(Example.<Card>of(entity, TASK_MATCHER)))
+			return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
+
+		cardRepository.saveAndFlush(entity);
+		HttpHeaders headers = new HttpHeaders();
+		headers.add(HttpHeaders.LOCATION, "/cardset/" + id);
+		return ResponseEntity.status(HttpStatus.FOUND).headers(headers).build();
 	}
 
 	@GetMapping("/entities/card/delete/{id}")
@@ -120,15 +138,6 @@ public class SpacedController {
 	public ResponseEntity<Void> wrong(@PathVariable Long id) {
 		cardRepository.updateCardDate(new Date(), id);
 		return new ResponseEntity<Void>(HttpStatus.OK);
-	}
-
-	private <T> String upsert(JpaRepository<T, Long> repository, Model model, @ModelAttribute T entity, String result) {
-		try {
-			repository.saveAndFlush(entity);
-		} catch (EntityExistsException e) {
-			return null;
-		}
-		return result;
 	}
 
 	private <T> ResponseEntity<Void> delete(JpaRepository<T, Long> repository, @PathVariable Long id) {
