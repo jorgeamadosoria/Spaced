@@ -4,6 +4,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <script src="https://code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 <script src="../static/js/testdata.js" th:src="@{/js/testdata.js}"></script>
 <script src="../static/js/custom.js" th:src="@{/js/custom.js}"></script>
 <link rel="stylesheet" type="text/css" href="https://unpkg.com/spectre.css/dist/spectre.min.css">
@@ -46,7 +47,7 @@
 				</div>
 				<div id="card-total" class="column col-1"></div>
 				<div class="column col-9">
-						<li id="page-model" class="d-none page-item"><a class="page-link" href="#">1</a></li>
+					<li id="page-model" class="d-none page-item"><a class="page-link" href="#">1</a></li>
 					<ul class="pagination">
 					</ul>
 				</div>
@@ -96,18 +97,11 @@
 						<textarea class="form-input" type="text" id="answer" name="answer" rows="8" placeholder="Answer"></textarea>
 					</div>
 					<div class="form-group">
-						<button type="reset" class="btn btn-primary">Reset</button>
-						<button type="submit" class="btn btn-primary">Submit</button>
+						<a id="submit-btn" type="button" data-dismiss="modal" href="#close"	class="btn btn-primary">Submit</a>
 					</div>
 				</form>
 			</div>
 		</div>
-		<div class="modal-body">
-			<div class="content">
-				<!-- content here -->
-			</div>
-		</div>
-		<div class="modal-footer">...</div>
 	</div>
 </body>
 <script>
@@ -152,7 +146,8 @@
 						$(row).find("#actions").find(".link-delete").attr("data-card",data.content[i].id)
 						.click(e => { 
 								$.get('/entities/card/delete/' + $(e.target).closest(".link-delete").attr("data-card"),
-								() => $(e.target).parent().parents("tr").remove() ); e.stopPropagation();
+								() => loadPage(page) ); 
+								e.stopPropagation();
 							}
 						);
 						$(row).toggleClass("d-none");
@@ -183,6 +178,22 @@
 	
 	//-------- create card invocation
 	$("#card-add").click(e => {cardModal("","","");$(e.target).addClass("active");});
+	
+	//-------- submit button ---------
+	function createFormObject(){
+		var loginForm = $('#modal-create-card form').serializeArray();
+		var loginFormObject = {};
+		$.each(loginForm,
+		    function(i, v) {
+		        loginFormObject[v.name] = v.value;
+		    });
+		
+		return loginFormObject;
+	}
+	
+	$("#submit-btn").click(e => $.post($('#modal-create-card form').attr("action"),createFormObject())
+	.fail(data => alert("duplicated entity name"))
+	.always(function(data){$("#modal-create-card").removeClass("active"); loadPage(page);}));
 	/*]]>*/
 </script>
 </html>
