@@ -1,12 +1,12 @@
 package org.jasr.spaced.controllers;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.assertj.core.util.Lists;
 import org.jasr.spaced.entities.Card;
 import org.jasr.spaced.entities.CardSet;
 import org.jasr.spaced.repositories.CardRepository;
@@ -125,7 +125,7 @@ public class SpacedController {
 	@GetMapping("/play/{id}")
 	public String play(Model model, @PathVariable Long id) {
 		model.addAttribute("description", cardSetRepository.getOne(id).getDescription());
-		List<Card> bruteContent = Lists.newArrayList();
+		List<Card> bruteContent = new ArrayList<>();
 		bruteContent.addAll(cardRepository.findTop10ByCardsetIdAndSuccessIsNull(id));
 		bruteContent.addAll(cardRepository.findTop10ByCardsetIdAndSucessIsFalseOrderByPlayAsc(id));
 		bruteContent.addAll(cardRepository.findTop10ByCardsetIdAndSucessIsTrueOrderByPlayAsc(id));
