@@ -186,7 +186,7 @@
 	$("#wrong-btn").on("click", function(e) {
 		var card = $(".card-container").find(".card-data").get(0);
 		var id = $(card).attr("data-id");
-		//only submit the first time you get the card right
+		//only submit the first time you get the card wrong
 		if (id) {
 			$.post("/play/wrong/" + id, csrf).done(function() {
 				$(card).removeAttr("data-id");

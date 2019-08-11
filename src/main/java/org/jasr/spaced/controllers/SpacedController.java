@@ -1,11 +1,12 @@
 package org.jasr.spaced.controllers;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.jasr.spaced.entities.BaseEntity;
+import org.assertj.core.util.Lists;
 import org.jasr.spaced.entities.Card;
 import org.jasr.spaced.entities.CardSet;
 import org.jasr.spaced.repositories.CardRepository;
@@ -124,19 +125,23 @@ public class SpacedController {
 	@GetMapping("/play/{id}")
 	public String play(Model model, @PathVariable Long id) {
 		model.addAttribute("description", cardSetRepository.getOne(id).getDescription());
-		model.addAttribute("cards", Stream.concat(cardRepository.findTop5ByCardsetIdAndPlayIsNull(id).stream(), cardRepository.findTop10ByCardsetIdAndRecurrenceGreaterThanAndPlayIsNotAndPlayIsNotNullOrderByPlayAsc(id, -1, new Date()).stream()).collect(Collectors.toList()));
+		List<Card> bruteContent = Lists.newArrayList();
+		bruteContent.addAll(cardRepository.findTop10ByCardsetIdAndSuccessIsNull(id));
+		bruteContent.addAll(cardRepository.findTop10ByCardsetIdAndSucessIsFalseOrderByPlayAsc(id));
+		bruteContent.addAll(cardRepository.findTop10ByCardsetIdAndSucessIsTrueOrderByPlayAsc(id));
+		model.addAttribute("cards",bruteContent.subList(0, 10)); 
 		return "play";
 	}
 
 	@PostMapping("/play/right/{id}")
 	public ResponseEntity<Void> right(@PathVariable Long id) {
-		cardRepository.updateCardDate(new Date(), new Date(), id);
+		cardRepository.updateCardDate(true, new Date(), id);
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 
 	@PostMapping("/play/wrong/{id}")
 	public ResponseEntity<Void> wrong(@PathVariable Long id) {
-		cardRepository.updateCardDate(new Date(), id);
+		cardRepository.updateCardDate(false, new Date(), id);
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 

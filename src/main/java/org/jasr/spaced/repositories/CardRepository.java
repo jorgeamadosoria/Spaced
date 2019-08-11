@@ -16,14 +16,13 @@ import org.springframework.transaction.annotation.Transactional;
 public interface CardRepository extends JpaRepository<Card, Long> {
 	@Modifying
 	@Query("update Card c set c.play = :play, c.success = :success where c.id = :id")
-	int updateCardDate(@Param("success") Date success, @Param("play") Date play, @Param("id") Long id);
+	int updateCardDate(@Param("success") Boolean success, @Param("play") Date play, @Param("id") Long id);
 
-	@Modifying
-	@Query("update Card c set c.play = :play where c.id = :id")
-	int updateCardDate(@Param("play") Date play, @Param("id") Long id);
-	
 	Page<Card> findAllByCardsetIdOrderByTaskAsc(Long cardsetId,Pageable pageable);
-	
-	public List<Card> findTop5ByCardsetIdAndPlayIsNull(Long id);
-	public List<Card> findTop10ByCardsetIdAndRecurrenceGreaterThanAndPlayIsNotAndPlayIsNotNullOrderByPlayAsc(Long id,int recurrence, Date now);
+	//cards not tried yet
+	public List<Card> findTop10ByCardsetIdAndSuccessIsNull(Long id);
+	//cards unsuccessfully tried
+	public List<Card> findTop10ByCardsetIdAndSucessIsFalseOrderByPlayAsc(Long id);
+	//cards successfully tried
+	public List<Card> findTop10ByCardsetIdAndSucessIsTrueOrderByPlayAsc(Long id);
 }
