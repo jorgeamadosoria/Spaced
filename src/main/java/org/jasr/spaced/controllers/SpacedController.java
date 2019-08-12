@@ -127,8 +127,8 @@ public class SpacedController {
 		model.addAttribute("description", cardSetRepository.getOne(id).getDescription());
 		List<Card> bruteContent = new ArrayList<>();
 		bruteContent.addAll(cardRepository.findTop10ByCardsetIdAndSuccessIsNull(id));
-		bruteContent.addAll(cardRepository.findTop10ByCardsetIdAndSucessIsFalseOrderByPlayAsc(id));
-		bruteContent.addAll(cardRepository.findTop10ByCardsetIdAndSucessIsTrueOrderByPlayAsc(id));
+		bruteContent.addAll(cardRepository.findTop10ByCardsetIdAndSuccessIsFalseOrderByPlayAsc(id));
+		bruteContent.addAll(cardRepository.findTop10ByCardsetIdAndSuccessIsTrueOrderByPlayAsc(id));
 		model.addAttribute("cards",bruteContent.subList(0, 10)); 
 		return "play";
 	}
