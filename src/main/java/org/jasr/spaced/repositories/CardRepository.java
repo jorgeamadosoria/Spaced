@@ -22,7 +22,7 @@ public interface CardRepository extends JpaRepository<Card, Long> {
 	//cards not tried yet
 	public List<Card> findTop10ByCardsetIdAndSuccessIsNull(Long id);
 	//cards unsuccessfully tried
-	public List<Card> findTop10ByCardsetIdAndSucessIsFalseOrderByPlayAsc(Long id);
+	public List<Card> findTop10ByCardsetIdAndSuccessIsFalseOrderByPlayAsc(Long id);
 	//cards successfully tried
-	public List<Card> findTop10ByCardsetIdAndSucessIsTrueOrderByPlayAsc(Long id);
+	public List<Card> findTop10ByCardsetIdAndSuccessIsTrueOrderByPlayAsc(Long id);
 }
