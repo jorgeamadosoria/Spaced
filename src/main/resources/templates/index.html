@@ -32,7 +32,7 @@
 					</div>
 				</div>
 				<div th:each="cardset : ${cardsets}" class="column col-3">
-					<div th:id="'cardset-' + ${cardset.id}" class="card cheight">
+					<div th:id="'cardset-' + ${cardset.id}" th:attr="data-id=${cardset.id},data-description=${cardset.description}" class="card cheight">
 						<div class="card-image col-mx-auto">
 							<img class="fixed-image img-responsive" th:src="${cardset.image}">
 						</div>
@@ -41,7 +41,7 @@
 						</div>
 						<div class="card-footer">
 							<div class="text-center">
-								<a th:href="@{'entities/cardset/delete/' + ${cardset.id}}" title="remove set" class="btn btn-sm btn-error hvr-grow"><i class="fas fa-trash-alt"></i></a>&nbsp;&nbsp; <a id="cardset-edit" th:attr="data-id=${cardset.id}" href="#modal-create-cardset" title="edit set" class="btn btn-sm btn-primary hvr-grow"><i th:attr="data-id=${cardset.id}" href="#modal-create-cardset" class="fas fa-edit"></i></a> &nbsp;&nbsp; <a th:href="@{'cardset/' + ${cardset.id}}" title="edit cards"
+								<a th:href="@{'entities/cardset/delete/' + ${cardset.id}}" title="remove set" class="btn btn-sm btn-error hvr-grow"><i class="fas fa-trash-alt"></i></a>&nbsp;&nbsp; <a href="#modal-create-cardset" title="edit set" class="cardset-edit btn btn-sm btn-primary hvr-grow"><i href="#modal-create-cardset" class="fas fa-edit"></i></a> &nbsp;&nbsp; <a th:href="@{'cardset/' + ${cardset.id}}" title="edit cards"
 									class="btn btn-sm btn-primary hvr-grow"><i class="fas fa-copy"></i></a> &nbsp;&nbsp; <a th:href="@{'play/' + ${cardset.id}}" title="daily play" class="btn btn-sm btn-success hvr-grow"><i class="fas fa-play"></i></a>
 							</div>
 						</div>
@@ -87,14 +87,26 @@
 	</div>
 </body>
 <script>
-	/*<![CDATA[*/
+	/*<![CDATA[*/-
 	$("#modal-close").click(e=> $("#modal-create-cardset").removeClass("active"));
 //	$("#cardset-add").click(e => $(e.target).attr("href").addClass("active"));
-	$("#cardset-edit").click(e => {
-		var cardsetId = "#cardset-" + $(e.target).attr("data-id");
-		$($(e.target).attr("href")).find("#id").val($(e.target).attr("data-id"));
+
+	$("#cardset-add").on("click", e => {
+		$("#modal-create-cardset").find("#id").val("");
+		$("#modal-create-cardset").find("#name").val("");
+		$("#modal-create-cardset").find("#image").val("");
+		$("#modal-create-cardset").find("#description").val("");
+		$("#modal-create-cardset").addClass("active");
+	});
+
+
+	$(".cardset-edit").on("click", e => {
+		var cardsetId = "#cardset-" + $(e.target).parents(".card").attr("data-id");
+		console.log(cardsetId);
+		$($(e.target).attr("href")).find("#id").val($(e.target).parents(".card").attr("data-id"));
 		$($(e.target).attr("href")).find("#name").val($(cardsetId).find(".card-title").text());
 		$($(e.target).attr("href")).find("#image").val($(cardsetId).find(".fixed-image").attr("src"));
+		$($(e.target).attr("href")).find("#description").val($(cardsetId).attr("data-description"));
 		$($(e.target).attr("href")).addClass("active");
 	});
 	$("a#logout").on("click",e => $.post("/logout"));
